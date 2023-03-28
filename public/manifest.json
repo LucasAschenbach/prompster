@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "ChatGPT Autocomplete",
+  "version": "1.0",
+  "description": "Autocomplete extension for ChatGPT prompts.",
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["bundle.js"],
+      "css": ["bundle.css"]
+    }
+  ],
+  "web_accessible_resources": ["..static/prompts.json"]
+}

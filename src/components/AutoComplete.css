@@ -1,0 +1,10 @@
+.auto-complete {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.auto-complete input {
+  width: 100%;
+  box-sizing: border-box;
+}
