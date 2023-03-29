@@ -68,7 +68,7 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) =>
 
   const inputField = <Card>
     <div className="flex flex-row items-center">
-      <div className="w-4 flex justify-center font-black font-lg">/</div>
+      <div className="w-4 flex justify-center font-bold font-lg">/</div>
       <input
         type="text"
         value={input}
@@ -81,7 +81,7 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) =>
   </Card>
 
   return (
-    <div className={`prompster text-sm font-mono absolute w-64 flex flex-col space-y-2 ${position === "above" ? "-translate-y-full" : "translate-y-full"}`}>
+    <div className={`text-sm absolute w-64 flex flex-col space-y-2 ${position === "above" ? "-translate-y-full" : "translate-y-full"}`}>
       {position === "above" && (
         <>
           {suggestionList}

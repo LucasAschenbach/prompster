@@ -22,34 +22,6 @@ const handlePromptInsert = (
   inputField.dispatchEvent(event);
 };
 
-const getCaretCoordinates = (
-  inputField: HTMLInputElement | HTMLTextAreaElement
-) => {
-  // const range = document.createRange();
-  // const selection = window.getSelection();
-
-  // const textNode =
-  //   inputField instanceof HTMLTextAreaElement
-  //     ? inputField.childNodes[0] || inputField
-  //     : inputField;
-
-  // range.setStart(textNode, inputField.selectionStart || 0);
-  // range.setEnd(textNode, inputField.selectionEnd || 0);
-
-  // const rect = range.getBoundingClientRect();
-  // const inputRect = inputField.getBoundingClientRect();
-
-  // return {
-  //   left: rect.left - inputRect.left,
-  //   top: rect.top - inputRect.top,
-  // };
-
-  return {
-    left: 0,
-    top: 0,
-  }
-};
-
 const handleEscape = (
   e: KeyboardEvent,
   div: HTMLDivElement,
@@ -80,7 +52,6 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
     autoCompleteOpen = true;
     const inputField = e.target as HTMLInputElement | HTMLTextAreaElement;
     const rect = inputField.getBoundingClientRect();
-    const caretCoordinates = getCaretCoordinates(inputField);
 
     const position = rect.top < window.innerHeight / 2 ? "below" : "above";
 
@@ -107,15 +78,17 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
 
     ReactDOM.render(
       <React.StrictMode>
-        <AutoComplete
-          prompts={prompts}
-          onPromptInsert={(prompt) => {
-            handlePromptInsert(inputField, prompt);
-            handleCloseAutoComplete(div);
-            document.removeEventListener("keydown", escapeListener);
-          }}
-          position={position}
-        />
+        <div className="prompster">
+          <AutoComplete
+            prompts={prompts}
+            onPromptInsert={(prompt) => {
+              handlePromptInsert(inputField, prompt);
+              handleCloseAutoComplete(div);
+              document.removeEventListener("keydown", escapeListener);
+            }}
+            position={position}
+          />
+        </div>
       </React.StrictMode>,
       div,
     );
