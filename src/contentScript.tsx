@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import AutoComplete from './components/AutoComplete';
-import prompts from '../static/prompts.json';
-import '../styles/global.css';
+import React, { useEffect } from "react";
+import ReactDOM from "react-dom";
+import AutoComplete from "./components/AutoComplete";
+import prompts from "../static/prompts.json";
+import "../styles/global.css";
 
 let autoCompleteOpen = false;
 
@@ -18,7 +18,7 @@ const handlePromptInsert = (
     cursorPosition + prompt.length,
     cursorPosition + prompt.length
   );
-  const event = new Event('input', { bubbles: true });
+  const event = new Event("input", { bubbles: true });
   inputField.dispatchEvent(event);
 };
 
@@ -55,7 +55,7 @@ const handleEscape = (
   div: HTMLDivElement,
   inputField: HTMLInputElement | HTMLTextAreaElement
 ) => {
-  if (e.key === 'Escape') {
+  if (e.key === "Escape") {
     handleCloseAutoComplete(div);
     inputField.focus();
   }
@@ -71,9 +71,9 @@ const handleCloseAutoComplete = (
   autoCompleteOpen = false;
 };
 
-document.body.addEventListener('keydown', (e: KeyboardEvent) => {
+document.body.addEventListener("keydown", (e: KeyboardEvent) => {
   if (
-    e.key === '/' &&
+    e.key === "/" &&
     !autoCompleteOpen &&
     (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)
   ) {
@@ -82,25 +82,21 @@ document.body.addEventListener('keydown', (e: KeyboardEvent) => {
     const rect = inputField.getBoundingClientRect();
     const caretCoordinates = getCaretCoordinates(inputField);
 
-    const div = document.createElement('div');
-    div.style.position = 'absolute';
-    div.style.left = `${rect.left + caretCoordinates.left + window.scrollX}px`;
-    div.style.top = `${rect.top - rect.height + caretCoordinates.top + window.scrollY}px`;
-    div.style.zIndex = '1000';
-    document.body.appendChild(div);
+    const position = rect.top < window.innerHeight / 2 ? "below" : "above";
+    const positionDirection = position === "above" ? -1 : 1;
 
-    ReactDOM.render(
-      <React.StrictMode>
-        <AutoComplete
-          prompts={prompts}
-          onPromptInsert={(prompt) => {
-            handlePromptInsert(inputField, prompt);
-            handleCloseAutoComplete(div);
-          }}
-        />
-      </React.StrictMode>,
-      div,
-    );
+    const div = document.createElement("div");
+    div.style.position = "absolute";
+    div.style.left = `${rect.left + window.scrollX}px`;
+    div.style.zIndex = "1000";
+
+    if (position === "above") {
+      div.style.bottom = `${window.innerHeight - rect.bottom + window.pageYOffset}px`;
+    } else {
+      div.style.top = `${rect.top + window.pageYOffset}px`;
+    }
+
+    document.body.appendChild(div);
 
     e.preventDefault();
 
@@ -108,7 +104,7 @@ document.body.addEventListener('keydown', (e: KeyboardEvent) => {
       handleEscape(e, div, inputField);
     };
 
-    document.addEventListener('keydown', escapeListener);
+    document.addEventListener("keydown", escapeListener);
 
     ReactDOM.render(
       <React.StrictMode>
@@ -117,8 +113,9 @@ document.body.addEventListener('keydown', (e: KeyboardEvent) => {
           onPromptInsert={(prompt) => {
             handlePromptInsert(inputField, prompt);
             handleCloseAutoComplete(div);
-            document.removeEventListener('keydown', escapeListener);
+            document.removeEventListener("keydown", escapeListener);
           }}
+          position={position}
         />
       </React.StrictMode>,
       div,

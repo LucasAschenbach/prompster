@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import SuggestionList from './SuggestionList';
-import Card from './Card';
+import React, { useState, useEffect, useRef } from "react";
+import SuggestionList from "./SuggestionList";
+import Card from "./Card";
 
 interface Props {
   prompts: Record<string, string>;
   onPromptInsert: (prompt: string) => void;
+  position: "above" | "below";
 }
 
-const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert }) => {
-  const [input, setInput] = useState('');
+const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) => {
+  const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -16,7 +17,7 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert }) => {
     setInput(newInput);
     if (newInput) {
       const filteredSuggestions = Object.keys(prompts)
-        .filter((key) => key.startsWith(newInput))
+        .filter((key) => key.toLowerCase().startsWith(newInput.toLowerCase()))
         .slice(0, 5);
       setSuggestions(filteredSuggestions);
     } else {
@@ -26,15 +27,15 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert }) => {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     switch (e.key) {
-      case 'ArrowUp':
+      case "ArrowUp":
         e.preventDefault();
         setSelectedIndex((index) => Math.max(0, index - 1));
         break;
-      case 'ArrowDown':
+      case "ArrowDown":
         e.preventDefault();
         setSelectedIndex((index) => Math.min(suggestions.length - 1, index + 1));
         break;
-      case 'Tab':
+      case "Tab":
         e.preventDefault();
         if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
           const selectedKey = suggestions[selectedIndex];
@@ -50,26 +51,42 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert }) => {
     setSelectedIndex(0);
   }, [suggestions]);
 
+  const suggestionList = <SuggestionList
+    suggestions={suggestions}
+    selectedIndex={selectedIndex}
+    onSelect={updateSuggestions}
+    position={position}
+  />
+
+  const inputField = <Card>
+    <div className="flex flex-row items-center">
+      <div className="w-4 flex justify-center font-black font-lg">/</div>
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => updateSuggestions(e.target.value)}
+        onKeyDown={handleKeyPress}
+        autoFocus
+        className="bg-transparent outline-none ring-0 w-full"
+        />
+      </div>
+  </Card>
+
   return (
-    <div className="font-mono prompster absolute w-64 flex flex-col gap-y-1">
-      <SuggestionList
-        suggestions={suggestions}
-        selectedIndex={selectedIndex}
-        onSelect={updateSuggestions}
-      />
-      <Card>
-        <div className="flex flex-row items-center">
-          <div className="w-4 flex justify-center font-bold">/</div>
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => updateSuggestions(e.target.value)}
-            onKeyDown={handleKeyPress}
-            autoFocus
-            className="bg-transparent outline-none w-full"
-            />
-          </div>
-      </Card>
+    <div className={`prompster text-sm font-mono absolute w-64 flex flex-col space-y-1 ${position === "above" ? "-translate-y-full" : "translate-y-full"}`}>
+      {position === "above" && (
+        <>
+          {suggestionList}
+          {inputField}
+        </>
+      )}
+
+      {position === "below" && (
+        <>
+          {inputField}
+          {suggestionList}
+        </>
+      )}
     </div>
   );
 };
