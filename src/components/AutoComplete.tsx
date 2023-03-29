@@ -81,7 +81,7 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) =>
   </Card>
 
   return (
-    <div className={`prompster text-sm font-mono absolute w-64 flex flex-col space-y-1 ${position === "above" ? "-translate-y-full" : "translate-y-full"}`}>
+    <div className={`prompster text-sm font-mono absolute w-64 flex flex-col space-y-2 ${position === "above" ? "-translate-y-full" : "translate-y-full"}`}>
       {position === "above" && (
         <>
           {suggestionList}

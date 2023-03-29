@@ -83,7 +83,6 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
     const caretCoordinates = getCaretCoordinates(inputField);
 
     const position = rect.top < window.innerHeight / 2 ? "below" : "above";
-    const positionDirection = position === "above" ? -1 : 1;
 
     const div = document.createElement("div");
     div.style.position = "absolute";
@@ -91,9 +90,9 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
     div.style.zIndex = "1000";
 
     if (position === "above") {
-      div.style.bottom = `${window.innerHeight - rect.bottom + window.pageYOffset}px`;
+      div.style.bottom = `${window.innerHeight - rect.bottom + window.scrollY}px`;
     } else {
-      div.style.top = `${rect.top + window.pageYOffset}px`;
+      div.style.top = `${rect.top + window.scrollY}px`;
     }
 
     document.body.appendChild(div);
