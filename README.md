@@ -42,7 +42,7 @@ npm run build
   d) Your extension should now be loaded and ready to use on any website with input fields.
 
 ## Credits
-The prompts inside [static/prompts.json](https://github.com/LucasAschenbach/prompster/blob/main/static/prompts.json) were sourced from the [Awesome ChatGPT Prompts](https://github.com/f/awesome-chatgpt-prompts) repository. If you like the prompts, check out their repository and leave a star!
+The prompts inside [static/prompts.json](https://github.com/LucasAschenbach/prompster/blob/main/static/prompts.json) were sourced from the [Awesome ChatGPT Prompts](https://github.com/f/awesome-chatgpt-prompts) repository. If you found the prompts interesting and useful, consider checking out their repository!
 
 ## License
 This project is open-source and available under the MIT License. See the LICENSE file for more details.
