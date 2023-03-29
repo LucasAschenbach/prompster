@@ -1,5 +1,5 @@
 import React from 'react';
-import './SuggestionList.css';
+import Card from './Card';
 
 interface Props {
   suggestions: string[];
@@ -7,18 +7,26 @@ interface Props {
   onSelect: (suggestion: string) => void;
 }
 
-const SuggestionList: React.FC<Props> = ({ suggestions, selectedIndex, onSelect }) => (
-  <ul className="suggestion-list">
-    {suggestions.map((suggestion, index) => (
-      <li
-        key={suggestion}
-        className={`suggestion-item ${index === selectedIndex ? 'selected' : ''}`}
-        onClick={() => onSelect(suggestion)}
-      >
-        {suggestion}
-      </li>
-    ))}
-  </ul>
-);
+const SuggestionList: React.FC<Props> = ({ suggestions, selectedIndex, onSelect }) => {
+  return (
+    <div className={`w-full ${suggestions.length > 0 ? '' : 'hidden'}`}>
+      <Card>
+        <ul>
+          {suggestions.reverse().map((suggestion, index) => (
+            <li
+              key={suggestion}
+              onClick={() => onSelect(suggestion)}
+              className={`px-2 py-1 cursor-pointer rounded-sm ${
+                index === selectedIndex ? 'bg-zinc-700' : ''
+              }`}
+            >
+              {suggestion}
+            </li>
+          ))}
+        </ul>
+      </Card>
+    </div>
+  );
+};
 
 export default SuggestionList;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SuggestionList from './SuggestionList';
-import './AutoComplete.css';
+import Card from './Card';
 
 interface Props {
   prompts: Record<string, string>;
@@ -25,7 +25,6 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert }) => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    console.log('key pressed', e.key);
     switch (e.key) {
       case 'ArrowUp':
         e.preventDefault();
@@ -42,9 +41,6 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert }) => {
           onPromptInsert(prompts[selectedKey]);
         }
         break;
-      // case 'Escape':
-      //   e.stopPropagation();
-      //   break;
       default:
         break;
     }
@@ -55,19 +51,25 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert }) => {
   }, [suggestions]);
 
   return (
-    <div className="auto-complete">
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => updateSuggestions(e.target.value)}
-        onKeyDown={handleKeyPress}
-        autoFocus
-      />
+    <div className="font-mono prompster absolute w-64 flex flex-col gap-y-1">
       <SuggestionList
         suggestions={suggestions}
         selectedIndex={selectedIndex}
         onSelect={updateSuggestions}
       />
+      <Card>
+        <div className="flex flex-row items-center">
+          <div className="w-4 flex justify-center font-bold">/</div>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => updateSuggestions(e.target.value)}
+            onKeyDown={handleKeyPress}
+            autoFocus
+            className="bg-transparent outline-none w-full"
+            />
+          </div>
+      </Card>
     </div>
   );
 };

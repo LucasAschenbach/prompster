@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "ChatGPT Autocomplete",
+  "name": "prompster",
   "version": "1.0",
-  "description": "Autocomplete extension for ChatGPT prompts.",
+  "description": "Quick prompt injection in your Browser",
   "permissions": ["activeTab"],
   "content_scripts": [
     {

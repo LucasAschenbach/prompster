@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import AutoComplete from './components/AutoComplete';
 import prompts from '../static/prompts.json';
+import '../styles/global.css';
 
 let autoCompleteOpen = false;
 
@@ -84,7 +85,7 @@ document.body.addEventListener('keydown', (e: KeyboardEvent) => {
     const div = document.createElement('div');
     div.style.position = 'absolute';
     div.style.left = `${rect.left + caretCoordinates.left + window.scrollX}px`;
-    div.style.top = `${rect.top - rect.height + 30 + caretCoordinates.top + window.scrollY}px`;
+    div.style.top = `${rect.top - rect.height + caretCoordinates.top + window.scrollY}px`;
     div.style.zIndex = '1000';
     document.body.appendChild(div);
 
