@@ -10,7 +10,7 @@ interface Props {
 
 const SuggestionList: React.FC<Props> = ({ suggestions, selectedIndex, onSelect, position }) => {
   const displaySuggestions = position === "above" ? [...suggestions].reverse() : suggestions;
-  const displayIndex = position === "above" ? suggestions.length - 1 - selectedIndex : selectedIndex;
+  const displayIndex = position === "above" ? (suggestions.length - 1 - selectedIndex) : selectedIndex;
 
   return (
     <div className={

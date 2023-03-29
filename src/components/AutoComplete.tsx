@@ -29,11 +29,19 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) =>
     switch (e.key) {
       case "ArrowUp":
         e.preventDefault();
-        setSelectedIndex((index) => Math.max(0, index - 1));
+        if (position === "above") {
+          setSelectedIndex((index) => Math.min(suggestions.length - 1, index + 1));
+        } else {
+          setSelectedIndex((index) => Math.max(0, index - 1));
+        }
         break;
       case "ArrowDown":
         e.preventDefault();
-        setSelectedIndex((index) => Math.min(suggestions.length - 1, index + 1));
+        if (position === "above") {
+          setSelectedIndex((index) => Math.max(0, index - 1));
+        } else {
+          setSelectedIndex((index) => Math.min(suggestions.length - 1, index + 1));
+        }
         break;
       case "Tab":
         e.preventDefault();
