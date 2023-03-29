@@ -16,7 +16,6 @@ const SuggestionList: React.FC<Props> = ({ suggestions, selectedIndex, onSelect,
   return (
     <div className={
       `w-full
-      ${position === "above" ? "bottom-full" : "top-full"}
       ${suggestions.length > 0 ? "" : "hidden"}`
     }>
       <Card>
