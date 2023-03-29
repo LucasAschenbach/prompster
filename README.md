@@ -6,7 +6,7 @@ Prompster is a handy Chrome extension that streamlines your experience with Open
 
 ## How it works
 1. Type the trigger character `/` in an input field on the site.
-2. An autocomplete window with a textfield will appear above the input field, automatically taking focus.
+2. An autocomplete window with a textfield will appear above the input field.
 3. As you type your prompt keyword, the window will display up to 5 suggestions that match the starting characters.
 4. The first suggestion is selected by default, but you can navigate the options using arrow keys.
 5. Press the `tab` key to insert the prompt associated with the selected keyword into the text field.
