@@ -35,11 +35,11 @@ npm install
 npm run build
 ```
 
-5. Load the extension in Chrome:
-  a) Open Chrome and go to chrome://extensions/.
-  b) Enable "Developer mode" in the top right corner.
-  c) Click "Load unpacked" and select the dist folder in the project directory.
-  d) Your extension should now be loaded and ready to use on any website with input fields.
+5. Load the extension in Chrome:5. Load the extension in Chrome:
+   1. Open Chrome and go to chrome://extensions/.
+   2. Enable "Developer mode" in the top right corner.
+   3. Click "Load unpacked" and select the dist folder in the project directory.
+   4. Your extension should now be loaded and ready to use on any website with input fields.
 
 ## Credits
 The prompts inside [static/prompts.json](https://github.com/LucasAschenbach/prompster/blob/main/static/prompts.json) were sourced from the [Awesome ChatGPT Prompts](https://github.com/f/awesome-chatgpt-prompts) repository. If you found the prompts interesting and useful, consider checking out their repository!
