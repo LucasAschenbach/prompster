@@ -2,7 +2,7 @@
 
 Prompster is a handy Chrome extension that streamlines your experience with OpenAI's ChatGPT by providing quick and easy access to a list of custom autocomplete prompts. By using a simple trigger character and a keyword-based system, you can insert predefined prompts directly into your ChatGPT input field. The list of predefined prompts is stored at [static/prompts.json](https://github.com/LucasAschenbach/prompster/blob/main/static/prompts.json) file and can be easily modified to suit your needs.
 
-<p align="center"><img src="https://github.com/lucasaschenbach/prompster/blob/main/assets/prompster-demo.git?raw=true" height="500em" alt="prompster in ChatGPT"></p>
+<p align="center"><img src="https://github.com/lucasaschenbach/prompster/blob/main/assets/prompster-demo.gif?raw=true" height="500em" alt="prompster in ChatGPT"></p>
 
 ## How it works
 1. Type the trigger character `/` in an input field on the site.
