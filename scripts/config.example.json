@@ -1,0 +1,6 @@
+{
+  "extensionId": "YOUR_EXTENSION_ID",
+  "clientId": "YOUR_CLIENT_ID",
+  "clientSecret": "YOUR_CLIENT_SECRET",
+  "refreshToken": "YOUR_REFRESH_TOKEN"
+}

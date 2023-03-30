@@ -1,6 +1,11 @@
 # System
 .DS_Store
 
+# Token
+config.json
+
+# AUTOMATICALY GENERATED
+
 # Logs
 logs
 *.log
