@@ -67,35 +67,23 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) =>
     position={position}
   />
 
-  const inputField = <Card>
-    <div className="flex flex-row items-center">
-      <div className="w-4 flex justify-center font-bold font-lg">/</div>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => updateSuggestions(e.target.value)}
-        onKeyDown={handleKeyPress}
-        autoFocus
-        className="bg-transparent outline-none ring-0 w-full"
-        />
-      </div>
-  </Card>
-
   return (
     <div className={`text-sm absolute w-64 flex flex-col space-y-2 ${position === "above" ? "-translate-y-full" : ""}`}>
-      {position === "above" && (
-        <>
-          {suggestionList}
-          {inputField}
-        </>
-      )}
-
-      {position === "below" && (
-        <>
-          {inputField}
-          {suggestionList}
-        </>
-      )}
+      {position === "above" && suggestionList}
+      <Card>
+        <div className="flex flex-row items-center">
+          <div className="w-4 flex justify-center font-bold font-lg">/</div>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => updateSuggestions(e.target.value)}
+            onKeyDown={handleKeyPress}
+            autoFocus
+            className="bg-transparent outline-none ring-0 w-full"
+          />
+        </div>
+      </Card>
+      {position === "below" && suggestionList}
     </div>
   );
 };
