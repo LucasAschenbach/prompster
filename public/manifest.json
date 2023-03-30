@@ -14,9 +14,9 @@
   "content_scripts": [
     {
       "matches": ["https://chat.openai.com/chat/*"],
-      "js": ["bundle.js"],
-      "css": ["bundle.css"]
+      "js": ["bundle.js"]
     }
   ],
-  "web_accessible_resources": ["..static/prompts.json"]
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "web_accessible_resources": ["../static/prompts.json"]
 }
