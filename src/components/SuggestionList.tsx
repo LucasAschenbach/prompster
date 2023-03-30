@@ -26,7 +26,7 @@ const SuggestionList: React.FC<Props> = ({ suggestions, selectedIndex, onSelect,
               <li
                 key={suggestion}
                 onClick={() => onSelect(suggestion)}
-                className={`px-2 py-1 cursor-pointer rounded-sm ${selected ? "bg-blue-700" : ""}`}
+                className={`px-2 py-1 cursor-pointer rounded-sm ${selected ? "bg-blue-700 hover:bg-blue-600" : "hover:bg-zinc-900"}`}
               >
                 <div className="flex flex-row items-center justify-between space-x-2">
                   {suggestion}
