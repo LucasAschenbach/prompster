@@ -44,6 +44,7 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) =>
         }
         break;
       case "Tab":
+      case "Enter":
         e.preventDefault();
         if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
           const selectedKey = suggestions[selectedIndex];
