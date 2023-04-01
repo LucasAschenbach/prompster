@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import AutoComplete from "./components/AutoComplete";
 import prompts from "../static/prompts.json";
@@ -12,7 +12,7 @@ const handlePromptInsert = (
 ) => {
   const cursorPosition = inputField.selectionStart || 0;
   const currentValue = inputField.value;
-  inputField.value = currentValue.slice(0, cursorPosition - 1) + prompt
+  inputField.value = currentValue.slice(0, cursorPosition - 1) + prompt;
   inputField.focus();
   inputField.setSelectionRange(
     cursorPosition + prompt.length,
@@ -33,9 +33,7 @@ const handleEscape = (
   }
 };
 
-const handleCloseAutoComplete = (
-  div: HTMLDivElement,
-) => {
+const handleCloseAutoComplete = (div: HTMLDivElement) => {
   if (div.parentElement) {
     ReactDOM.unmountComponentAtNode(div);
     document.body.removeChild(div);
@@ -47,7 +45,8 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
   if (
     e.key === "/" &&
     !autoCompleteOpen &&
-    (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)
+    (e.target instanceof HTMLInputElement ||
+      e.target instanceof HTMLTextAreaElement)
   ) {
     autoCompleteOpen = true;
     const inputField = e.target as HTMLInputElement | HTMLTextAreaElement;
@@ -61,7 +60,9 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
     div.style.zIndex = "1000";
 
     if (position === "above") {
-      div.style.bottom = `${window.innerHeight - rect.bottom + window.scrollY}px`;
+      div.style.bottom = `${
+        window.innerHeight - rect.bottom + window.scrollY
+      }px`;
     } else {
       div.style.top = `${rect.top + window.scrollY}px`;
     }
@@ -90,7 +91,7 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
           />
         </div>
       </React.StrictMode>,
-      div,
+      div
     );
   }
 });

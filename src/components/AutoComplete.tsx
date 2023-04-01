@@ -8,7 +8,11 @@ interface Props {
   position: "above" | "below";
 }
 
-const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) => {
+const AutoComplete: React.FC<Props> = ({
+  prompts,
+  onPromptInsert,
+  position,
+}) => {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -30,7 +34,9 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) =>
       case "ArrowUp":
         e.preventDefault();
         if (position === "above") {
-          setSelectedIndex((index) => Math.min(suggestions.length - 1, index + 1));
+          setSelectedIndex((index) =>
+            Math.min(suggestions.length - 1, index + 1)
+          );
         } else {
           setSelectedIndex((index) => Math.max(0, index - 1));
         }
@@ -40,7 +46,9 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) =>
         if (position === "above") {
           setSelectedIndex((index) => Math.max(0, index - 1));
         } else {
-          setSelectedIndex((index) => Math.min(suggestions.length - 1, index + 1));
+          setSelectedIndex((index) =>
+            Math.min(suggestions.length - 1, index + 1)
+          );
         }
         break;
       case "Tab":
@@ -66,26 +74,32 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) =>
     setSelectedIndex(0);
   }, [suggestions]);
 
-  const suggestionList = <SuggestionList
-    suggestions={suggestions}
-    selectedIndex={selectedIndex}
-    onSelect={updateSuggestions}
-    position={position}
-  />
+  const suggestionList = (
+    <SuggestionList
+      suggestions={suggestions}
+      selectedIndex={selectedIndex}
+      onSelect={updateSuggestions}
+      position={position}
+    />
+  );
 
   return (
-    <div className={`text-sm absolute w-64 flex flex-col space-y-2 ${position === "above" ? "-translate-y-full" : ""}`}>
+    <div
+      className={`absolute flex w-64 flex-col space-y-2 text-sm ${
+        position === "above" ? "-translate-y-full" : ""
+      }`}
+    >
       {position === "above" && suggestionList}
       <Card>
         <div className="flex flex-row items-center">
-          <div className="w-4 flex justify-center font-bold font-lg">/</div>
+          <div className="font-lg flex w-4 justify-center font-bold">/</div>
           <input
             type="text"
             value={input}
             onChange={(e) => updateSuggestions(e.target.value)}
             onKeyDown={handleKeyPress}
             autoFocus
-            className="bg-transparent outline-none ring-0 w-full"
+            className="w-full bg-transparent outline-none ring-0"
           />
         </div>
       </Card>
@@ -93,5 +107,5 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) =>
     </div>
   );
 };
-    
+
 export default AutoComplete;

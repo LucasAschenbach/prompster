@@ -9,15 +9,24 @@ interface Props {
   position: "above" | "below";
 }
 
-const SuggestionList: React.FC<Props> = ({ suggestions, selectedIndex, onSelect, position }) => {
-  const displaySuggestions = position === "above" ? [...suggestions].reverse() : suggestions;
-  const displayIndex = position === "above" ? (suggestions.length - 1 - selectedIndex) : selectedIndex;
+const SuggestionList: React.FC<Props> = ({
+  suggestions,
+  selectedIndex,
+  onSelect,
+  position,
+}) => {
+  const displaySuggestions =
+    position === "above" ? [...suggestions].reverse() : suggestions;
+  const displayIndex =
+    position === "above"
+      ? suggestions.length - 1 - selectedIndex
+      : selectedIndex;
 
   return (
-    <div className={
-      `w-full
-      ${suggestions.length > 0 ? "" : "hidden"}`
-    }>
+    <div
+      className={`w-full
+      ${suggestions.length > 0 ? "" : "hidden"}`}
+    >
       <Card>
         <ul>
           {displaySuggestions.map((suggestion, index) => {
@@ -26,15 +35,19 @@ const SuggestionList: React.FC<Props> = ({ suggestions, selectedIndex, onSelect,
               <li
                 key={suggestion}
                 onClick={() => onSelect(suggestion)}
-                className={`px-2 py-1 cursor-pointer rounded-sm ${selected ? "bg-blue-700 hover:bg-blue-600" : "hover:bg-zinc-900"}`}
+                className={`cursor-pointer rounded-sm px-2 py-1 ${
+                  selected
+                    ? "bg-blue-700 hover:bg-blue-600"
+                    : "hover:bg-zinc-900"
+                }`}
               >
                 <div className="flex flex-row items-center justify-between space-x-2">
                   {suggestion}
                   {selected ? <HiArrowNarrowRight /> : null}
                 </div>
               </li>
-            )}
-          )}
+            );
+          })}
         </ul>
       </Card>
     </div>
