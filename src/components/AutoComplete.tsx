@@ -51,6 +51,12 @@ const AutoComplete: React.FC<Props> = ({ prompts, onPromptInsert, position }) =>
           onPromptInsert(prompts[selectedKey]);
         }
         break;
+      case "Backspace":
+        if (input.length === 0) {
+          e.preventDefault();
+          onPromptInsert("/");
+        }
+        break;
       default:
         break;
     }
