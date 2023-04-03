@@ -11,13 +11,14 @@
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_icon": "icons/icon48.png"
+    "default_icon": "icons/icon48.png",
+    "default_popup": "popup.html"
   },
-  "permissions": ["activeTab"],
+  "permissions": [],
   "content_scripts": [
     {
       "matches": ["https://chat.openai.com/chat/*"],
-      "js": ["bundle.js"]
+      "js": ["contentScript.js"]
     }
   ],
   "web_accessible_resources": [

@@ -1,10 +1,14 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/contentScript.tsx',
+  entry: {
+    contentScript: './src/contentScript.tsx',
+    popup: './src/popup.tsx',
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
@@ -25,8 +29,13 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/popup.html',
+      filename: 'popup.html',
+      chunks: ['popup'],
+    }),
     new CopyPlugin({
-      patterns: [{from: ".", to: ".", context: "public"}]
+      patterns: [{from: '.', to: '.', context: 'public/static'}]
     }),
   ],
 };
