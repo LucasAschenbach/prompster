@@ -12,7 +12,8 @@ const handlePromptInsert = (
 ) => {
   const cursorPosition = inputField.selectionStart || 0;
   const currentValue = inputField.value;
-  inputField.value = currentValue.slice(0, cursorPosition - 1) + prompt;
+  const newValue = currentValue.slice(0, cursorPosition) + prompt + currentValue.slice(cursorPosition);
+  inputField.value = newValue;
   inputField.focus();
   inputField.setSelectionRange(
     cursorPosition + prompt.length,
