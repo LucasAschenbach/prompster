@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: {
     contentScript: './src/contentScript.tsx',
-    popup: './src/popup.tsx',
+    popup: './src/popup/index.tsx',
   },
   output: {
     filename: '[name].js',

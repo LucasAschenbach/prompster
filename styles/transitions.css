@@ -1,0 +1,12 @@
+.slide-enter {
+  @apply translate-x-full;
+}
+.slide-enter-active {
+  @apply translate-x-0 transition-transform duration-300;
+}
+.slide-exit {
+  @apply translate-x-0;
+}
+.slide-exit-active {
+  @apply -translate-x-full transition-transform duration-300;
+}
