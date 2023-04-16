@@ -1,4 +1,4 @@
-import prompts from '../../static/prompts.json';
+import defaultPrompts from '../../static/default_prompts.json';
 
 let promptsCache: { [key: string]: string } = {};
 
@@ -9,7 +9,7 @@ export async function initStorage() {
     });
   });
   if (promptsCache === undefined) {
-    promptsCache = prompts;
+    promptsCache = defaultPrompts;
     await chrome.storage.local.set({ prompts: promptsCache });
   }
 }
