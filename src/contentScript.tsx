@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import AutoComplete from "./components/AutoComplete";
-import prompts from "../static/prompts.json";
 import "../styles/global.css";
+import { PromptProvider } from "./contexts/PromptContext";
 
 let autoCompleteOpen = false;
 
@@ -81,15 +81,16 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
     ReactDOM.render(
       <React.StrictMode>
         <div className="prompster">
-          <AutoComplete
-            prompts={prompts}
-            onPromptInsert={(prompt) => {
-              handlePromptInsert(inputField, prompt);
-              handleCloseAutoComplete(div);
-              document.removeEventListener("keydown", escapeListener);
-            }}
-            position={position}
-          />
+          <PromptProvider>
+            <AutoComplete
+              onPromptInsert={(prompt) => {
+                handlePromptInsert(inputField, prompt);
+                handleCloseAutoComplete(div);
+                document.removeEventListener("keydown", escapeListener);
+              }}
+              position={position}
+            />
+          </PromptProvider>
         </div>
       </React.StrictMode>,
       div

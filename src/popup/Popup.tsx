@@ -1,9 +1,9 @@
 import React from "react";
 import { MemoryRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import SearchPage from "../pages/SearchPage";
-import EditPage from "../pages/EditPage";
-import "../../../styles/transitions.css";
+import SearchPage from "./pages/SearchPage";
+import EditPage from "./pages/EditPage";
+import "../../styles/transitions.css";
 
 const Popup: React.FC = () => {
   return (
@@ -17,12 +17,12 @@ const PopupContent: React.FC = () => {
   const location = useLocation();
 
   return (
-    <div className="w-96 border-zinc-700 bg-black">
+    <div className="w-96 bg-black">
       <TransitionGroup className="h-full">
         <CSSTransition
           key={location.key}
           classNames="slide"
-          timeout={{ enter: 300, exit: 300 }}
+          timeout={{ enter: 150, exit: 150 }}
         >
           <Routes location={location}>
             <Route path="/" element={<SearchPage />} />

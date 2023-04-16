@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import EditPrompt from "../components/EditPrompt";
-
-import promptsData from "../../../static/prompts.json";
+import { usePromptContext } from "../../contexts/PromptContext";
 
 const EditPage = () => {
+  const { prompts } = usePromptContext();
+
   const navigate = useNavigate();
   const { index } = useParams<{ index: string }>();
 
-  const [keyword, text] = Object.entries(promptsData)[parseInt(index ?? "0")];
+  const [keyword, text] = Object.entries(prompts)[parseInt(index ?? "0")];
 
   const handleSave = (keyword: string, text: string) => {
     // TODO: Save to storage

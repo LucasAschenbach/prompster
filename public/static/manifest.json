@@ -14,10 +14,13 @@
     "default_icon": "icons/icon48.png",
     "default_popup": "popup.html"
   },
-  "permissions": [],
+  "permissions": ["storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
-      "matches": ["https://chat.openai.com/chat/*"],
+      "matches": ["https://chat.openai.com/*"],
       "js": ["contentScript.js"]
     }
   ],

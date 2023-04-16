@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import SearchResult from "../components/SearchResult";
-
-import promptsData from "../../../static/prompts.json";
+import { usePromptContext } from "../../contexts/PromptContext";
 
 const SearchPage = () => {
+  const { prompts } = usePromptContext();
+
   const navigate = useNavigate();
   const searchBarRef = useRef<HTMLDivElement>(null);
   const searchBarPlaceholderRef = useRef<HTMLDivElement>(null);
@@ -19,17 +20,17 @@ const SearchPage = () => {
 
   const [search, setSearch] = useState("");
   const [filteredPrompts, setFilteredPrompts] = useState(
-    Object.entries(promptsData).map((entry, index) => ({ entry, index }))
+    Object.entries(prompts).map((entry, index) => ({ entry, index }))
   );
   
   useEffect(() => {
-    const results = Object.entries(promptsData)
+    const results = Object.entries(prompts)
       .map((entry, index) => ({ entry, index }))
       .filter(({ entry: [keyword] }) =>
         keyword.toLowerCase().includes(search.toLowerCase())
       );
     setFilteredPrompts(results);
-  }, [search]);
+  }, [search, prompts]);
   
 
   const handleItemClick = (index: number) => {
@@ -42,7 +43,7 @@ const SearchPage = () => {
         <div className="bg-black" ref={searchBarRef}>
           <SearchBar onSearch={setSearch} />
           <div className="px-4 py-1 text-xs text-zinc-500">
-            {filteredPrompts.length} of {Object.entries(promptsData).length}{" "}
+            {filteredPrompts.length} of {Object.entries(prompts).length}{" "}
             prompts
           </div>
         </div>
@@ -53,7 +54,7 @@ const SearchPage = () => {
           <SearchResult
             key={index}
             keyword={keyword}
-            text={text as string}
+            text={text}
             onClick={() => handleItemClick(index)}
           />
         ))}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { HiArrowLeft, HiOutlineDuplicate, HiOutlineTrash, HiOutlineHashtag, HiMenuAlt2, HiHashtag } from "react-icons/hi";
+import { HiArrowLeft, HiOutlineDuplicate, HiOutlineTrash, HiMenuAlt2, HiHashtag } from "react-icons/hi";
 
 interface EditPromptProps {
   keyword: string;
@@ -53,7 +53,7 @@ const EditPrompt: React.FC<EditPromptProps> = ({
         <button className="p-2 rounded text-red-500 hover:text-red-400 hover:bg-zinc-900" onClick={onDelete}><HiOutlineTrash size={18}/></button>
       </div>
       <form className="flex flex-col w-full">
-        <label>
+        <label className="cursor-text">
           <div className="px-2 py-4 flex flex-row border-b border-zinc-700">
             <div className="px-4 py-2 text-white"><HiHashtag size={18}/></div>
             <div className="px-2 flex-grow">
@@ -67,7 +67,7 @@ const EditPrompt: React.FC<EditPromptProps> = ({
             </div>
           </div>
         </label>
-        <label>
+        <label className="cursor-text">
           <div className="px-2 py-4 flex flex-row">
             <div className="px-4 py-2 text-white"><HiMenuAlt2 size={18}/></div>
             <div className="px-2 flex-grow">

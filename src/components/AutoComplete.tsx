@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import SuggestionList from "./SuggestionList";
 import Card from "./Card";
+import { usePromptContext } from "../contexts/PromptContext";
 
 interface Props {
-  prompts: Record<string, string>;
   onPromptInsert: (prompt: string) => void;
   position: "above" | "below";
 }
 
 const AutoComplete: React.FC<Props> = ({
-  prompts,
   onPromptInsert,
   position,
 }) => {
+  const { prompts } = usePromptContext();
+
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);

@@ -1,12 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Popup from "./components/Popup";
+import Popup from "./Popup";
+import { PromptProvider } from "../contexts/PromptContext";
 import "../../styles/global.css";
 
 ReactDOM.render(
   <React.StrictMode>
     <div className="prompster">
-      <Popup />
+      <PromptProvider >
+        <Popup />
+      </PromptProvider>
     </div>
   </React.StrictMode>,
   document.getElementById("popup-root")
