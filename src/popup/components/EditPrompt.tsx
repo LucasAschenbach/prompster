@@ -1,19 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { HiArrowLeft, HiOutlineDuplicate, HiOutlineTrash, HiMenuAlt2, HiHashtag } from "react-icons/hi";
+import { addPrompt, deletePrompt, updatePrompt } from "../../utils/message";
 
 interface EditPromptProps {
   keyword: string;
   text: string;
-  onSave: (newKeyword: string, newText: string) => void;
-  onDelete: () => void;
   onBack: () => void;
 }
 
 const EditPrompt: React.FC<EditPromptProps> = ({
   keyword,
   text,
-  onSave,
-  onDelete,
   onBack,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -31,16 +28,22 @@ const EditPrompt: React.FC<EditPromptProps> = ({
   const [newKeyword, setNewKeyword] = useState(keyword);
   const [newText, setNewText] = useState(text);
 
-  const handleSave = () => {
-    onSave(newKeyword, newText);
+  const handleFork = async () => {
+    await addPrompt(keyword, text);
+  };
+
+  const handleDelete = async () => {
+    await deletePrompt(keyword);
   };
 
   const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewKeyword(e.target.value);
+    updatePrompt(newKeyword, newText);
   };
 
   const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewText(e.target.value);
+    updatePrompt(newKeyword, newText);
   };
 
   return (
@@ -49,8 +52,8 @@ const EditPrompt: React.FC<EditPromptProps> = ({
         <button className="p-2 rounded text-blue-500 hover:text-blue-400 hover:bg-zinc-900" onClick={onBack}><HiArrowLeft size={18}/></button>
         <h2 className="text-base text-white">Edit Prompt</h2>
         <div className="flex-grow" />
-        <button className="p-2 rounded text-blue-500 hover:text-blue-400 hover:bg-zinc-900" onClick={handleSave}><HiOutlineDuplicate size={18}/></button>
-        <button className="p-2 rounded text-red-500 hover:text-red-400 hover:bg-zinc-900" onClick={onDelete}><HiOutlineTrash size={18}/></button>
+        <button className="p-2 rounded text-blue-500 hover:text-blue-400 hover:bg-zinc-900" onClick={handleFork}><HiOutlineDuplicate size={18}/></button>
+        <button className="p-2 rounded text-red-500 hover:text-red-400 hover:bg-zinc-900" onClick={handleDelete}><HiOutlineTrash size={18}/></button>
       </div>
       <form className="flex flex-col w-full">
         <label className="cursor-text">
@@ -84,8 +87,7 @@ const EditPrompt: React.FC<EditPromptProps> = ({
           </div>
         </label>
       </form>
-      <button onClick={handleSave}>Save</button>
-      <button onClick={onDelete}>Delete</button>
+      <div className="h-2" />
     </div>
   );
 };
