@@ -29,7 +29,7 @@ const EditPrompt: React.FC<EditPromptProps> = ({
   const [newText, setNewText] = useState(text);
 
   const handleFork = async () => {
-    await addPrompt(keyword, text);
+    // await addPrompt(keyword, text);
   };
 
   const handleDelete = async () => {
