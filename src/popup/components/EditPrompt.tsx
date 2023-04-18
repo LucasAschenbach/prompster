@@ -34,6 +34,7 @@ const EditPrompt: React.FC<EditPromptProps> = ({
 
   const handleDelete = async () => {
     await deletePrompt(keyword);
+    onBack();
   };
 
   const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
