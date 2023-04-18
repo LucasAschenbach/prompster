@@ -3,9 +3,10 @@ import { HiPlus } from "react-icons/hi";
 
 interface Props {
   onSearch: (search: string) => void;
+  onAdd: () => void;
 }
 
-const SearchBar: React.FC<Props> = ({ onSearch }) => {
+const SearchBar: React.FC<Props> = ({ onSearch, onAdd }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSearch(e.target.value);
   };
@@ -18,7 +19,10 @@ const SearchBar: React.FC<Props> = ({ onSearch }) => {
         placeholder="Search prompts..."
         onChange={handleChange}
       />
-      <button className="flex-none m-2 p-2 rounded text-blue-500 hover:bg-zinc-900 hover:text-blue-400">
+      <button
+        className="flex-none m-2 p-2 rounded text-blue-500 hover:bg-zinc-900 hover:text-blue-400"
+        onClick={onAdd}
+      >
         <HiPlus size={18} />
       </button>
     </div>

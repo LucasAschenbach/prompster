@@ -31,7 +31,10 @@ const SearchPage = () => {
       );
     setFilteredPrompts(results);
   }, [search, prompts]);
-  
+
+  const handleAddClick = () => {
+    navigate("/create");
+  };
 
   const handleItemClick = (index: number) => {
     navigate(`/edit/${index}`);
@@ -41,7 +44,7 @@ const SearchPage = () => {
     <>
       <div className="fixed inset-x-0 top-0 z-10 border-zinc-700">
         <div className="bg-black" ref={searchBarRef}>
-          <SearchBar onSearch={setSearch} />
+          <SearchBar onSearch={setSearch} onAdd={handleAddClick} />
           <div className="px-4 py-1 text-xs text-zinc-500">
             {filteredPrompts.length} of {Object.entries(prompts).length}{" "}
             prompts

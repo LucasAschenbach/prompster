@@ -3,6 +3,7 @@ import { MemoryRouter as Router, Route, Routes, useLocation } from "react-router
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import SearchPage from "./pages/SearchPage";
 import EditPage from "./pages/EditPage";
+import CreatePage from "./pages/CreatePage";
 import "../../styles/transitions.css";
 
 const Popup: React.FC = () => {
@@ -27,6 +28,7 @@ const PopupContent: React.FC = () => {
           <Routes location={location}>
             <Route path="/" element={<SearchPage />} />
             <Route path="/edit/:index" element={<EditPage />} />
+            <Route path="/create" element={<CreatePage />} />
           </Routes>
         </CSSTransition>
       </TransitionGroup>
