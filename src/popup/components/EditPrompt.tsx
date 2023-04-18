@@ -37,13 +37,15 @@ const EditPrompt: React.FC<EditPromptProps> = ({
   };
 
   const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewKeyword(e.target.value);
-    updatePrompt(newKeyword, newText);
+    const newKeyword = e.target.value;
+    updatePrompt(keyword, newKeyword, newText);
+    setNewKeyword(newKeyword);
   };
 
   const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewText(e.target.value);
-    updatePrompt(newKeyword, newText);
+    const newText = e.target.value;
+    updatePrompt(keyword, newKeyword, newText);
+    setNewText(newText);
   };
 
   return (

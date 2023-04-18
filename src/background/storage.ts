@@ -14,9 +14,13 @@ export async function initStorage() {
   }
 }
 
-// Update the cache, only called by the storage listener
-export function updateCache(prompts: { [key: string]: string }) {
+// Update the cache and notify listeners
+export async function updateCache(prompts: { [key: string]: string }) {
+  if (JSON.stringify(prompts) === JSON.stringify(promptsCache)) {
+    return;
+  }
   promptsCache = prompts;
+  await chrome.runtime.sendMessage({ type: 'updatePrompts', prompts: prompts });
 }
 
 // CRUD operations
@@ -28,19 +32,25 @@ export function getPrompts() {
 
 // Add a new prompt
 export async function addPrompt(key: string, value: string) {
-  promptsCache[key] = value;
-  await chrome.storage.sync.set({ prompts: promptsCache });
+  const updatedPrompts = { ...promptsCache, [key]: value };
+  await updateCache(updatedPrompts);
+  await chrome.storage.local.set({ prompts: updatedPrompts });
 }
 
 // Update an existing prompt
 export async function updatePrompt(oldKey: string, newKey: string, newValue: string) {
-  delete promptsCache[oldKey];
-  promptsCache[newKey] = newValue;
-  await chrome.storage.sync.set({ prompts: promptsCache });
+  const updatedPrompts = { ...promptsCache, [newKey]: newValue };
+  if (oldKey !== newKey) {
+    delete updatedPrompts[oldKey];
+  }
+  await updateCache(updatedPrompts);
+  await chrome.storage.local.set({ prompts: updatedPrompts });
 }
 
 // Delete a prompt
 export async function deletePrompt(key: string) {
-  delete promptsCache[key];
-  await chrome.storage.sync.set({ prompts: promptsCache });
+  const updatedPrompts = { ...promptsCache };
+  delete updatedPrompts[key];
+  await updateCache(updatedPrompts);
+  await chrome.storage.local.set({ prompts: updatedPrompts });
 }
