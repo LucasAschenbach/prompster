@@ -1,29 +1,26 @@
-// src/background/index.ts
-
 import { initStorage, updateCache, getPrompts, addPrompt, updatePrompt, deletePrompt } from './storage';
 
-// Initialize the storage and cache
-initStorage();
+let storageInitialized = false;
+const messageQueue: { request: any; sender: chrome.runtime.MessageSender; sendResponse: (response?: any) => void }[] = [];
 
-// Listen for changes in the Chrome storage to keep the cache up to date
-chrome.storage.onChanged.addListener((changes, areaName) => {
-  if (areaName === 'local' && changes.prompts) {
-    updateCache(changes.prompts.newValue);
+async function processMessageQueue() {
+  console.log('Processing message queue', messageQueue)
+  for (const { request, sender, sendResponse } of messageQueue) {
+    await handleMessage(request, sender, sendResponse);
   }
-});
+}
 
-// Listen for messages from the popup and content script
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+async function handleMessage(request: any, sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) {
   switch (request.action) {
     case 'getPrompts':
       sendResponse(getPrompts());
       break;
     case 'addPrompt':
-      addPrompt(request.key, request.value);
+      await addPrompt(request.key, request.value);
       sendResponse();
       break;
     case 'updatePrompt':
-      updatePrompt(request.key, request.newKey, request.newValue);
+      await updatePrompt(request.key, request.newKey, request.newValue);
       sendResponse();
       break;
     case 'deletePrompt':
@@ -31,5 +28,29 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
       sendResponse();
       break;
   }
+  return true;
+}
+
+// Initialize the storage and cache
+initStorage().then(() => {
+  storageInitialized = true;
+  processMessageQueue();
+
+  // Listen for changes in the Chrome storage to keep the cache up to date
+  chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName === 'local' && changes.prompts) {
+      updateCache(changes.prompts.newValue);
+    }
+  });
+});
+
+// Listen for messages from the popup and content script
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log('Received message', request);
+  if (!storageInitialized) {
+    messageQueue.push({ request, sender, sendResponse });
+    return true;
+  }
+  handleMessage(request, sender, sendResponse);
   return true;
 });
