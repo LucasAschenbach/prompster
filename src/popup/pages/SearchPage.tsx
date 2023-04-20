@@ -22,7 +22,7 @@ const SearchPage = () => {
   const [filteredPrompts, setFilteredPrompts] = useState(
     Object.entries(prompts).map((entry, index) => ({ entry, index }))
   );
-  
+
   useEffect(() => {
     const results = Object.entries(prompts)
       .map((entry, index) => ({ entry, index }))
@@ -46,8 +46,7 @@ const SearchPage = () => {
         <div className="bg-black" ref={searchBarRef}>
           <SearchBar onSearch={setSearch} onAdd={handleAddClick} />
           <div className="px-4 py-1 text-xs text-zinc-500">
-            {filteredPrompts.length} of {Object.entries(prompts).length}{" "}
-            prompts
+            {filteredPrompts.length} of {Object.entries(prompts).length} prompts
           </div>
         </div>
       </div>

@@ -1,7 +1,18 @@
-import { initStorage, updateCache, getPrompts, updatePrompt, deletePrompt, createPrompt } from './storage';
+import {
+  initStorage,
+  updateCache,
+  getPrompts,
+  updatePrompt,
+  deletePrompt,
+  createPrompt,
+} from "./storage";
 
 let storageInitialized = false;
-const messageQueue: { request: any; sender: chrome.runtime.MessageSender; sendResponse: (response?: any) => void }[] = [];
+const messageQueue: {
+  request: any;
+  sender: chrome.runtime.MessageSender;
+  sendResponse: (response?: any) => void;
+}[] = [];
 
 async function processMessageQueue() {
   for (const { request, sender, sendResponse } of messageQueue) {
@@ -9,20 +20,24 @@ async function processMessageQueue() {
   }
 }
 
-async function handleMessage(request: any, sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) {
+async function handleMessage(
+  request: any,
+  sender: chrome.runtime.MessageSender,
+  sendResponse: (response?: any) => void
+) {
   switch (request.action) {
-    case 'getPrompts':
+    case "getPrompts":
       sendResponse(getPrompts());
       break;
-    case 'createPrompt':
+    case "createPrompt":
       await createPrompt(request.key, request.value);
       sendResponse();
       break;
-    case 'updatePrompt':
+    case "updatePrompt":
       await updatePrompt(request.key, request.newKey, request.newValue);
       sendResponse();
       break;
-    case 'deletePrompt':
+    case "deletePrompt":
       await deletePrompt(request.key);
       sendResponse();
       break;
@@ -37,7 +52,7 @@ initStorage().then(() => {
 
   // Listen for changes in the Chrome storage to keep the cache up to date
   chrome.storage.onChanged.addListener((changes, areaName) => {
-    if (areaName === 'local' && changes.prompts) {
+    if (areaName === "local" && changes.prompts) {
       updateCache(changes.prompts.newValue);
     }
   });

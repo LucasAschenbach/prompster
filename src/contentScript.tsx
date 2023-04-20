@@ -12,7 +12,10 @@ const handlePromptInsert = (
 ) => {
   const cursorPosition = inputField.selectionStart || 0;
   const currentValue = inputField.value;
-  const newValue = currentValue.slice(0, cursorPosition) + prompt + currentValue.slice(cursorPosition);
+  const newValue =
+    currentValue.slice(0, cursorPosition) +
+    prompt +
+    currentValue.slice(cursorPosition);
   inputField.value = newValue;
   inputField.focus();
   inputField.setSelectionRange(
@@ -47,7 +50,7 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
     e.key === "/" &&
     !autoCompleteOpen &&
     (e.target instanceof HTMLInputElement ||
-     e.target instanceof HTMLTextAreaElement)
+      e.target instanceof HTMLTextAreaElement)
   ) {
     autoCompleteOpen = true;
     const inputField = e.target as HTMLInputElement | HTMLTextAreaElement;

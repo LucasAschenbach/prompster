@@ -7,7 +7,7 @@ import "../../styles/global.css";
 ReactDOM.render(
   <React.StrictMode>
     <div className="prompster">
-      <PromptProvider >
+      <PromptProvider>
         <Popup />
       </PromptProvider>
     </div>

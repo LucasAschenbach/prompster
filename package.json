@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack --mode production --watch",
     "build": "webpack --mode production",
-    "publish": "webpack --mode production && node scripts/publish.mjs"
+    "publish": "webpack --mode production && node scripts/publish.mjs",
+    "pretty": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "keywords": [],
   "author": "",
@@ -42,7 +43,7 @@
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
     "prettier": "^2.8.7",
-    "prettier-plugin-tailwindcss": "^0.2.6",
+    "prettier-plugin-tailwindcss": "^0.2.7",
     "style-loader": "^3.3.2"
   }
 }

@@ -1,10 +1,10 @@
-import defaultPrompts from '../../static/default_prompts.json';
+import defaultPrompts from "../../static/default_prompts.json";
 
 let promptsCache: { [key: string]: string } = {};
 
 export async function initStorage() {
   promptsCache = await new Promise<{ [key: string]: string }>((resolve) => {
-    chrome.storage.local.get('prompts', (data) => {
+    chrome.storage.local.get("prompts", (data) => {
       resolve(data.prompts);
     });
   });
@@ -20,7 +20,7 @@ export async function updateCache(prompts: { [key: string]: string }) {
     return;
   }
   promptsCache = prompts;
-  await chrome.runtime.sendMessage({ type: 'updatePrompts', prompts: prompts });
+  await chrome.runtime.sendMessage({ type: "updatePrompts", prompts: prompts });
 }
 
 // CRUD operations
@@ -38,8 +38,12 @@ export async function createPrompt(key: string, value: string) {
 }
 
 // Update an existing prompt
-export async function updatePrompt(oldKey: string, newKey: string, newValue: string) {
-  console.log(oldKey, newKey, newValue)
+export async function updatePrompt(
+  oldKey: string,
+  newKey: string,
+  newValue: string
+) {
+  console.log(oldKey, newKey, newValue);
   const updatedPrompts = { ...promptsCache, [newKey]: newValue };
   if (oldKey !== newKey) {
     delete updatedPrompts[oldKey];

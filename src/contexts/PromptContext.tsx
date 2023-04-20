@@ -1,4 +1,10 @@
-import React, { createContext, useState, useEffect, useContext, useMemo } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+} from "react";
 import { listenForBackgroundUpdates, getPrompts } from "../utils/message";
 
 type PromptContextType = {
@@ -9,7 +15,9 @@ const PromptContext = createContext<PromptContextType>({ prompts: {} });
 
 export const usePromptContext = () => useContext(PromptContext);
 
-export const PromptProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const PromptProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [prompts, setPrompts] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
@@ -26,5 +34,7 @@ export const PromptProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const value = useMemo(() => ({ prompts }), [prompts]);
 
-  return <PromptContext.Provider value={value}>{children}</PromptContext.Provider>;
+  return (
+    <PromptContext.Provider value={value}>{children}</PromptContext.Provider>
+  );
 };

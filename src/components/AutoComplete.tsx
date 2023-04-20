@@ -8,10 +8,7 @@ interface Props {
   position: "above" | "below";
 }
 
-const AutoComplete: React.FC<Props> = ({
-  onPromptInsert,
-  position,
-}) => {
+const AutoComplete: React.FC<Props> = ({ onPromptInsert, position }) => {
   const { prompts } = usePromptContext();
 
   const [input, setInput] = useState("");

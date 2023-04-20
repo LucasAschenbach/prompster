@@ -20,7 +20,7 @@ const SearchBar: React.FC<Props> = ({ onSearch, onAdd }) => {
         onChange={handleChange}
       />
       <button
-        className="flex-none m-2 p-2 rounded text-blue-500 hover:bg-zinc-900 hover:text-blue-400"
+        className="m-2 flex-none rounded p-2 text-blue-500 hover:bg-zinc-900 hover:text-blue-400"
         onClick={onAdd}
       >
         <HiPlus size={18} />

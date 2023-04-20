@@ -1,5 +1,10 @@
 import React from "react";
-import { MemoryRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import {
+  MemoryRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import SearchPage from "./pages/SearchPage";
 import EditPage from "./pages/EditPage";

@@ -14,7 +14,7 @@ const CreatePage = () => {
   const [text, setText] = useState("");
 
   const handleBack = () => {
-    navigate(-1)
+    navigate(-1);
   };
 
   const handleCreate = () => {
@@ -28,7 +28,7 @@ const CreatePage = () => {
     }
     createPrompt(keyword, text);
     handleBack();
-  }
+  };
 
   const handleKeywordChange = (newKeyword: string) => {
     setKeyword(newKeyword);
@@ -40,8 +40,13 @@ const CreatePage = () => {
 
   return (
     <div className="w-full">
-      <div className="p-2 flex flex-row items-center justify-start border-b border-zinc-700">
-        <button className="p-2 rounded text-blue-500 hover:text-blue-400 hover:bg-zinc-900" onClick={handleBack}><HiArrowLeft size={18}/></button>
+      <div className="flex flex-row items-center justify-start border-b border-zinc-700 p-2">
+        <button
+          className="rounded p-2 text-blue-500 hover:bg-zinc-900 hover:text-blue-400"
+          onClick={handleBack}
+        >
+          <HiArrowLeft size={18} />
+        </button>
         <h2 className="text-base text-white">Edit Prompt</h2>
       </div>
       <EditPrompt
@@ -50,9 +55,9 @@ const CreatePage = () => {
         onKeywordChange={handleKeywordChange}
         onTextChange={handleTextChange}
       />
-      <div className="p-2 border-t border-zinc-700">
+      <div className="border-t border-zinc-700 p-2">
         <button
-          className="w-full flex flex-row items-center justify-center space-x-4 p-2 rounded text-blue-500 hover:text-blue-400 hover:bg-zinc-900"
+          className="flex w-full flex-row items-center justify-center space-x-4 rounded p-2 text-blue-500 hover:bg-zinc-900 hover:text-blue-400"
           onClick={handleCreate}
         >
           <HiPlus size={18} />

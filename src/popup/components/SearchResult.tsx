@@ -29,7 +29,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
 }) => {
   return (
     <div
-      className="group relative flex-grow rounded border-zinc-700 p-2 hover:bg-zinc-900 cursor-pointer"
+      className="group relative flex-grow cursor-pointer rounded border-zinc-700 p-2 hover:bg-zinc-900"
       onClick={onClick}
     >
       <div className="flex flex-row">
