@@ -31,7 +31,7 @@ export function getPrompts() {
 }
 
 // Add a new prompt
-export async function addPrompt(key: string, value: string) {
+export async function createPrompt(key: string, value: string) {
   const updatedPrompts = { ...promptsCache, [key]: value };
   await updateCache(updatedPrompts);
   await chrome.storage.local.set({ prompts: updatedPrompts });
@@ -39,6 +39,7 @@ export async function addPrompt(key: string, value: string) {
 
 // Update an existing prompt
 export async function updatePrompt(oldKey: string, newKey: string, newValue: string) {
+  console.log(oldKey, newKey, newValue)
   const updatedPrompts = { ...promptsCache, [newKey]: newValue };
   if (oldKey !== newKey) {
     delete updatedPrompts[oldKey];

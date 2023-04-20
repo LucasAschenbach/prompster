@@ -1,4 +1,4 @@
-type StorageAction = 'getPrompts' | 'addPrompt' | 'updatePrompt' | 'deletePrompt';
+type StorageAction = 'getPrompts' | 'createPrompt' | 'updatePrompt' | 'deletePrompt';
 
 interface StorageRequest {
   action: StorageAction;
@@ -19,8 +19,8 @@ export async function getPrompts(): Promise<{ [key: string]: string }> {
   return response;
 }
 
-export async function addPrompt(key: string, value: string): Promise<void> {
-  await sendStorageRequest({ action: 'addPrompt', key: key, value: value });
+export async function createPrompt(key: string, value: string): Promise<void> {
+  await sendStorageRequest({ action: 'createPrompt', key: key, value: value });
 }
 
 export async function updatePrompt(key: string, newKey: string, newValue: string): Promise<void> {

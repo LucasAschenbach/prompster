@@ -1,4 +1,4 @@
-import { initStorage, updateCache, getPrompts, addPrompt, updatePrompt, deletePrompt } from './storage';
+import { initStorage, updateCache, getPrompts, updatePrompt, deletePrompt, createPrompt } from './storage';
 
 let storageInitialized = false;
 const messageQueue: { request: any; sender: chrome.runtime.MessageSender; sendResponse: (response?: any) => void }[] = [];
@@ -14,8 +14,8 @@ async function handleMessage(request: any, sender: chrome.runtime.MessageSender,
     case 'getPrompts':
       sendResponse(getPrompts());
       break;
-    case 'addPrompt':
-      await addPrompt(request.key, request.value);
+    case 'createPrompt':
+      await createPrompt(request.key, request.value);
       sendResponse();
       break;
     case 'updatePrompt':
