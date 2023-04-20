@@ -4,7 +4,6 @@ let storageInitialized = false;
 const messageQueue: { request: any; sender: chrome.runtime.MessageSender; sendResponse: (response?: any) => void }[] = [];
 
 async function processMessageQueue() {
-  console.log('Processing message queue', messageQueue)
   for (const { request, sender, sendResponse } of messageQueue) {
     await handleMessage(request, sender, sendResponse);
   }
@@ -46,7 +45,6 @@ initStorage().then(() => {
 
 // Listen for messages from the popup and content script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log('Received message', request);
   if (!storageInitialized) {
     messageQueue.push({ request, sender, sendResponse });
     return true;
