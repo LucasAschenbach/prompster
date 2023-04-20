@@ -19,9 +19,11 @@ const CreatePage = () => {
 
   const handleCreate = () => {
     if (!keyword || !text) {
+      // values must be non-empty
       return;
     }
     if (prompts[keyword]) {
+      // keyword must be unique
       return;
     }
     createPrompt(keyword, text);
