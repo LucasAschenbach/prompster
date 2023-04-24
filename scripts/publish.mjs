@@ -46,7 +46,7 @@ async function main() {
     });
 
     archive.pipe(output);
-    archive.directory('dist/', false);
+    archive.directory('dist-chrome/', false);
     archive.finalize();
   } catch (err) {
     console.error('Error creating the zip archive:', err);

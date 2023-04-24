@@ -1,3 +1,5 @@
+import browser from "webextension-polyfill";
+
 type StorageAction =
   | "getPrompts"
   | "createPrompt"
@@ -10,13 +12,11 @@ interface StorageRequest {
 }
 
 // Send a message to the background script
-function sendStorageRequest(request: StorageRequest): Promise<any> {
-  return new Promise((resolve) => {
-    chrome.runtime.sendMessage(request, (response) => {
-      resolve(response);
-    });
-  });
+async function sendStorageRequest(request: StorageRequest): Promise<any> {
+  const response = await browser.runtime.sendMessage(request);
+  return response;
 }
+
 
 export async function getPrompts(): Promise<{ [key: string]: string }> {
   const response = await sendStorageRequest({ action: "getPrompts" });
@@ -48,12 +48,12 @@ export function listenForBackgroundUpdates(
   callback: (updatedPrompts: { [key: string]: string }) => void
 ) {
   const listener = (message: any, sender: any) => {
-    if (message.type === "updatePrompts" && sender.id === chrome.runtime.id) {
+    if (message.type === "updatePrompts" && sender.id === browser.runtime.id) {
       callback(message.prompts);
     }
   };
-  chrome.runtime.onMessage.addListener(listener);
+  browser.runtime.onMessage.addListener(listener);
   return () => {
-    chrome.runtime.onMessage.removeListener(listener);
+    browser.runtime.onMessage.removeListener(listener);
   };
 }

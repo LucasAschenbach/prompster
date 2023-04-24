@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --mode production --watch",
-    "build": "webpack --mode production",
+    "start": "webpack --mode production --env browser=chrome --watch",
+    "build": "webpack --mode production --env browser=chrome",
+    "build:chrome": "webpack --mode production --env browser=chrome",
+    "build:firefox": "webpack --mode production --env browser=firefox",
+    "build:all": "run-s build:chrome build:firefox",
     "publish": "webpack --mode production && node scripts/publish.mjs",
     "pretty": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
   },
@@ -19,6 +22,7 @@
     "@types/react-dom": "^18.0.11",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-transition-group": "^4.4.5",
+    "@types/webextension-polyfill": "^0.10.0",
     "archiver": "^5.3.1",
     "autoprefixer": "^10.4.14",
     "chrome-webstore-upload": "^1.0.0",
@@ -34,6 +38,7 @@
     "tailwindcss": "^3.3.0",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.2",
+    "webextension-polyfill": "^0.10.0",
     "webpack": "^5.76.3",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.13.1"
@@ -42,8 +47,10 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.8.7",
     "prettier-plugin-tailwindcss": "^0.2.7",
-    "style-loader": "^3.3.2"
+    "style-loader": "^3.3.2",
+    "webpack-merge": "^5.8.0"
   }
 }

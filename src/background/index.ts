@@ -1,3 +1,4 @@
+import browser from "webextension-polyfill";
 import {
   initStorage,
   updateCache,
@@ -10,7 +11,7 @@ import {
 let storageInitialized = false;
 const messageQueue: {
   request: any;
-  sender: chrome.runtime.MessageSender;
+  sender: browser.Runtime.MessageSender;
   sendResponse: (response?: any) => void;
 }[] = [];
 
@@ -22,7 +23,7 @@ async function processMessageQueue() {
 
 async function handleMessage(
   request: any,
-  sender: chrome.runtime.MessageSender,
+  sender: browser.Runtime.MessageSender,
   sendResponse: (response?: any) => void
 ) {
   switch (request.action) {
@@ -45,13 +46,14 @@ async function handleMessage(
   return true;
 }
 
+
 // Initialize the storage and cache
 initStorage().then(() => {
   storageInitialized = true;
   processMessageQueue();
 
   // Listen for changes in the Chrome storage to keep the cache up to date
-  chrome.storage.onChanged.addListener((changes, areaName) => {
+  browser.storage.onChanged.addListener((changes, areaName) => {
     if (areaName === "local" && changes.prompts) {
       updateCache(changes.prompts.newValue);
     }
@@ -59,7 +61,7 @@ initStorage().then(() => {
 });
 
 // Listen for messages from the popup and content script
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (!storageInitialized) {
     messageQueue.push({ request, sender, sendResponse });
     return true;
