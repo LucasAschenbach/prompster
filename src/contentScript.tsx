@@ -38,7 +38,6 @@ const handleEscape = (
 };
 
 const handleCloseAutoComplete = (div: HTMLDivElement) => {
-  console.log("closing autocomplete")
   if (div.parentElement) {
     ReactDOM.unmountComponentAtNode(div);
     document.body.removeChild(div);
