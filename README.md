@@ -50,7 +50,7 @@ npm run build
    1. Open Chrome and go to chrome://extensions/.
    2. Enable "Developer mode" in the top right corner.
    3. Click "Load unpacked" and select the dist folder in the project directory.
-   4. Your extension should now be loaded and ready to use on any website with input fields.
+   4. Your extension should now be loaded and ready to use with ChatGPT.
 
 ## Credits
 The prompts inside [static/prompts.json](https://github.com/LucasAschenbach/prompster/blob/main/static/prompts.json) were sourced from the [Awesome ChatGPT Prompts](https://github.com/f/awesome-chatgpt-prompts) repository. If you found the prompts interesting and useful, consider checking out their repository!
