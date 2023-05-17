@@ -4,6 +4,9 @@
 # Token
 config.json
 
+# build
+dist-*
+
 # AUTOMATICALY GENERATED
 
 # Logs
