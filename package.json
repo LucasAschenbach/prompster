@@ -1,6 +1,6 @@
 {
   "name": "extension",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "build": "webpack --mode production --env browser=chrome",
     "build:chrome": "webpack --mode production --env browser=chrome",
     "build:firefox": "webpack --mode production --env browser=firefox",
-    "build:all": "run-s build:chrome build:firefox",
+    "build:safari": "mkdir -p dist-safari && cd dist-safari && xcrun safari-web-extension-converter ../dist-chrome/ --copy-resources && cd ..",
+    "build:all": "run-s build:chrome build:firefox build:safari",
     "publish": "webpack --mode production && node scripts/publish.mjs",
     "pretty": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
   },
