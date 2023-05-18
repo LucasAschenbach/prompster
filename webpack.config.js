@@ -9,15 +9,19 @@ module.exports = (env) => {
     env = { browser: "chrome" };
   }
   const isFirefox = env.browser === "firefox";
+  let manifest
   let outputPath;
   switch (env.browser) {
     case "firefox":
+      manifest = "manifest.firefox.json";
       outputPath = path.resolve(__dirname, "dist-firefox");
       break;
     case "chrome":
+      manifest = "manifest.chrome.json";
       outputPath = path.resolve(__dirname, "dist-chrome");
       break;
     case "safari":
+      manifest = "manifest.safari.json";
       outputPath = path.resolve(__dirname, "dist-safari");
       break;
     default:
@@ -61,7 +65,7 @@ module.exports = (env) => {
         patterns: [
           { from: ".", to: ".", context: "public/static" },
           {
-            from: isFirefox ? "manifest.firefox.json" : "manifest.chrome.json",
+            from: manifest,
             to: "manifest.json",
           },
         ],
