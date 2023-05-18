@@ -76,7 +76,7 @@ const AutoComplete: React.FC<Props> = ({ onPromptInsert, position }) => {
     <SuggestionList
       suggestions={suggestions}
       selectedIndex={selectedIndex}
-      onSelect={updateSuggestions}
+      onClick={(selectedKey: string) => onPromptInsert(prompts[selectedKey])}
       position={position}
     />
   );

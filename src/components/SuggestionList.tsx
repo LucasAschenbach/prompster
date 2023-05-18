@@ -5,14 +5,14 @@ import { HiArrowNarrowRight } from "react-icons/hi";
 interface Props {
   suggestions: string[];
   selectedIndex: number;
-  onSelect: (suggestion: string) => void;
+  onClick: (suggestion: string) => void;
   position: "above" | "below";
 }
 
 const SuggestionList: React.FC<Props> = ({
   suggestions,
   selectedIndex,
-  onSelect,
+  onClick,
   position,
 }) => {
   const displaySuggestions =
@@ -34,7 +34,7 @@ const SuggestionList: React.FC<Props> = ({
             return (
               <li
                 key={suggestion}
-                onClick={() => onSelect(suggestion)}
+                onClick={() => onClick(suggestion)}
                 className={`cursor-pointer rounded-sm px-2 py-1 ${
                   selected
                     ? "bg-blue-700 hover:bg-blue-600"
