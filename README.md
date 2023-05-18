@@ -53,7 +53,7 @@ npm run build
    4. Your extension should now be loaded and ready to use with ChatGPT.
 
 ## Credits
-The prompts inside [static/prompts.json](https://github.com/LucasAschenbach/prompster/blob/main/static/prompts.json) were sourced from the [Awesome ChatGPT Prompts](https://github.com/f/awesome-chatgpt-prompts) repository. If you found the prompts interesting and useful, consider checking out their repository!
+The prompts inside [static/default_prompts.json](https://github.com/LucasAschenbach/prompster/blob/main/static/default_prompts.json) were sourced from the [Awesome ChatGPT Prompts](https://github.com/f/awesome-chatgpt-prompts) repository. If you found the prompts interesting and useful, consider checking out their repository!
 
 ## License
 This project is open-source and available under the MIT License. For more details, please see the [LICENSE](https://github.com/LucasAschenbach/prompster/blob/main/LICENSE) file.
