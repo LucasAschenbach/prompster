@@ -20,7 +20,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://chat.openai.com/*"],
+      "matches": ["https://chat.openai.com/*", "https://bard.google.com/*"],
       "js": ["contentScript.js"]
     }
   ],
