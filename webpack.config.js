@@ -5,9 +5,20 @@ const { merge } = require("webpack-merge");
 
 module.exports = (env) => {
   const isFirefox = env && env.browser === "firefox";
-  const outputPath = isFirefox
-    ? path.resolve(__dirname, "dist-firefox")
-    : path.resolve(__dirname, "dist-chrome");
+  let outputPath;
+  switch (env.browser) {
+    case "firefox":
+      outputPath = path.resolve(__dirname, "dist-firefox");
+      break;
+    case "chrome":
+      outputPath = path.resolve(__dirname, "dist-chrome");
+      break;
+    case "safari":
+      outputPath = path.resolve(__dirname, "dist-safari");
+      break;
+    default:
+      throw new Error(`Unknown browser: ${env.browser}\nSupported targets are: firefox, chrome, safari`);
+  }
 
   const baseConfig = {
     entry: {
