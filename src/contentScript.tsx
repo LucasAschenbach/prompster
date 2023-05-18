@@ -84,16 +84,18 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
     ReactDOM.render(
       <React.StrictMode>
         <div className="prompster">
-          <PromptProvider>
-            <AutoComplete
-              onPromptInsert={(prompt) => {
-                handlePromptInsert(inputField, prompt);
-                handleCloseAutoComplete(div);
-                document.removeEventListener("keydown", escapeListener);
-              }}
-              position={position}
-            />
-          </PromptProvider>
+          <div className="font-sans"> 
+            <PromptProvider>
+              <AutoComplete
+                onPromptInsert={(prompt) => {
+                  handlePromptInsert(inputField, prompt);
+                  handleCloseAutoComplete(div);
+                  document.removeEventListener("keydown", escapeListener);
+                }}
+                position={position}
+              />
+            </PromptProvider>
+          </div>
         </div>
       </React.StrictMode>,
       div
