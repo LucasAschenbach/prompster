@@ -26,7 +26,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["static/prompts.json"],
+      "resources": ["static/default_prompts.json"],
       "matches": ["<all_urls>"]
     }
   ]
