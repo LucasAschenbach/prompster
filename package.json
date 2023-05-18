@@ -11,7 +11,7 @@
     "build:safari": "webpack --mode production --env browser=safari",
     "build:all": "run-s build:chrome build:firefox build:safari",
     "init:safari": "xcrun safari-web-extension-converter --project-location dist-safari/ --bundle-identifier com.app.prompster dist-safari/",
-    "publish": "webpack --mode production && node scripts/publish.mjs",
+    "publish:chrome": "webpack --mode production --env browser=chrome && node scripts/publish.mjs",
     "pretty": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "keywords": [],
