@@ -46,7 +46,6 @@ async function handleMessage(
   return true;
 }
 
-
 // Initialize the storage and cache
 initStorage().then(() => {
   storageInitialized = true;

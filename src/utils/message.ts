@@ -17,7 +17,6 @@ async function sendStorageRequest(request: StorageRequest): Promise<any> {
   return response;
 }
 
-
 export async function getPrompts(): Promise<{ [key: string]: string }> {
   const response = await sendStorageRequest({ action: "getPrompts" });
   return response;

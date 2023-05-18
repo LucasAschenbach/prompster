@@ -84,7 +84,7 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
     ReactDOM.render(
       <React.StrictMode>
         <div className="prompster">
-          <div className="font-sans"> 
+          <div className="font-sans">
             <PromptProvider>
               <AutoComplete
                 onPromptInsert={(prompt) => {
