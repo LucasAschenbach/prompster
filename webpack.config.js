@@ -2,9 +2,13 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { merge } = require("webpack-merge");
+const ZipPlugin = require("zip-webpack-plugin");
 
 module.exports = (env) => {
-  const isFirefox = env && env.browser === "firefox";
+  if (!env || !env.browser) {
+    env = { browser: "chrome" };
+  }
+  const isFirefox = env.browser === "firefox";
   let outputPath;
   switch (env.browser) {
     case "firefox":
@@ -62,6 +66,9 @@ module.exports = (env) => {
           },
         ],
       }),
+      ...(isFirefox ? [new ZipPlugin({
+        filename: "prompster.zip",
+      })] : []),
     ],
   };
 
