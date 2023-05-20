@@ -3,6 +3,7 @@ import {
   initStorage,
   updateCache,
   getPrompts,
+  setPrompts,
   updatePrompt,
   deletePrompt,
   createPrompt,
@@ -29,6 +30,10 @@ async function handleMessage(
   switch (request.action) {
     case "getPrompts":
       sendResponse(getPrompts());
+      break;
+    case "setPrompts":
+      await setPrompts(request.prompts);
+      sendResponse();
       break;
     case "createPrompt":
       await createPrompt(request.key, request.value);

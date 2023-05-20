@@ -32,16 +32,8 @@ const SearchPage = () => {
     setFilteredPrompts(results);
   }, [search, prompts]);
 
-  const handleDownload = () => {
-    const blob = new Blob([JSON.stringify(prompts)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-
-    a.href = url;
-    a.download = "prompts.json";
-    a.click();
+  const handleDataClick = () => {
+    navigate("/data");
   };
 
   const handleAddClick = () => {
@@ -56,7 +48,7 @@ const SearchPage = () => {
     <>
       <div className="fixed inset-x-0 top-0 z-10 border-zinc-700">
         <div className="bg-black" ref={searchBarRef}>
-          <SearchBar onSearch={setSearch} onDownload={handleDownload} onAdd={handleAddClick} />
+          <SearchBar onSearch={setSearch} onData={handleDataClick} onAdd={handleAddClick} />
           <div className="px-4 py-1 text-xs text-zinc-500">
             {filteredPrompts.length} of {Object.entries(prompts).length} prompts
           </div>

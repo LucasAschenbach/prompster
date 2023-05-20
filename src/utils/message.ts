@@ -2,6 +2,7 @@ import browser from "webextension-polyfill";
 
 type StorageAction =
   | "getPrompts"
+  | "setPrompts"
   | "createPrompt"
   | "updatePrompt"
   | "deletePrompt";
@@ -20,6 +21,10 @@ async function sendStorageRequest(request: StorageRequest): Promise<any> {
 export async function getPrompts(): Promise<{ [key: string]: string }> {
   const response = await sendStorageRequest({ action: "getPrompts" });
   return response;
+}
+
+export async function setPrompts(prompts: { [key: string]: string }): Promise<void> {
+  await sendStorageRequest({ action: "setPrompts", prompts: prompts });
 }
 
 export async function createPrompt(key: string, value: string): Promise<void> {
