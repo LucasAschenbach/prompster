@@ -47,7 +47,7 @@ const CreatePage = () => {
         >
           <HiArrowLeft size={18} />
         </button>
-        <h2 className="text-base text-white">Edit Prompt</h2>
+        <h2 className="text-base text-white">Create Prompt</h2>
       </div>
       <EditPrompt
         initialKeyword={""}

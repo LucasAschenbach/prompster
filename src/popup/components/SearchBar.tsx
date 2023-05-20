@@ -1,12 +1,13 @@
 import React from "react";
-import { HiPlus } from "react-icons/hi";
+import { HiPlus, HiDownload } from "react-icons/hi";
 
 interface Props {
   onSearch: (search: string) => void;
+  onDownload: () => void;
   onAdd: () => void;
 }
 
-const SearchBar: React.FC<Props> = ({ onSearch, onAdd }) => {
+const SearchBar: React.FC<Props> = ({ onSearch, onDownload, onAdd }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSearch(e.target.value);
   };
@@ -19,12 +20,20 @@ const SearchBar: React.FC<Props> = ({ onSearch, onAdd }) => {
         placeholder="Search prompts..."
         onChange={handleChange}
       />
-      <button
-        className="m-2 flex-none rounded p-2 text-blue-500 hover:bg-zinc-900 hover:text-blue-400"
-        onClick={onAdd}
-      >
-        <HiPlus size={18} />
-      </button>
+      <div className="flex flex-row p-2">
+        <button
+          className="flex-none rounded p-2 text-blue-500 hover:bg-zinc-900 hover:text-blue-400"
+          onClick={onDownload}
+        >
+          <HiDownload size={18} />
+        </button>
+        <button
+          className="flex-none rounded p-2 text-blue-500 hover:bg-zinc-900 hover:text-blue-400"
+          onClick={onAdd}
+        >
+          <HiPlus size={18} />
+        </button>
+      </div>
     </div>
   );
 };
