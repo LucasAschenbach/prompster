@@ -8,7 +8,7 @@ module.exports = (env) => {
   if (!env || !env.browser) {
     env = { browser: "chrome" };
   }
-  const isFirefox = env.browser === "firefox";
+  const isSafari = env.browser === "safari";
   let manifest
   let outputPath;
   switch (env.browser) {
@@ -70,7 +70,7 @@ module.exports = (env) => {
           },
         ],
       }),
-      ...(isFirefox ? [new ZipPlugin({
+      ...(!isSafari ? [new ZipPlugin({
         filename: "prompster.zip",
       })] : []),
     ],
