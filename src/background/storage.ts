@@ -48,7 +48,6 @@ export async function updatePrompt(
   newKey: string,
   newValue: string
 ) {
-  console.log(oldKey, newKey, newValue);
   const updatedPrompts = { ...promptsCache, [newKey]: newValue };
   if (oldKey !== newKey) {
     delete updatedPrompts[oldKey];

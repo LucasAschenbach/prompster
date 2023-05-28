@@ -39,7 +39,6 @@ const DataPage: React.FC = () => {
           if (e.target) {
             try {
               const newPrompts = JSON.parse(e.target.result as string);
-              console.log(newPrompts);
               setPrompts(newPrompts);
               setUploadStatus({ message: "Upload successful!", success: true });
             } catch (error) {
