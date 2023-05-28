@@ -3,9 +3,10 @@ const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { merge } = require("webpack-merge");
 const ZipPlugin = require("zip-webpack-plugin");
+const { DefinePlugin } = require("webpack");
 
 module.exports = (env) => {
-  if (!env || !env.browser) {
+  if (!env?.browser) {
     env = { browser: "chrome" };
   }
   const isSafari = env.browser === "safari";
@@ -69,6 +70,10 @@ module.exports = (env) => {
             to: "manifest.json",
           },
         ],
+      }),
+      new DefinePlugin({
+        BROWSER: JSON.stringify(env.browser),
+        VERSION: JSON.stringify(require("./package.json").version),
       }),
       ...(!isSafari ? [new ZipPlugin({
         filename: "prompster.zip",

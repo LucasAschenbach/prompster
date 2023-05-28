@@ -9,6 +9,9 @@
     "moduleResolution": "node",
     "outDir": "dist"
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*",
+    "global.d.ts"
+  ],
   "exclude": ["node_modules"]
 }
