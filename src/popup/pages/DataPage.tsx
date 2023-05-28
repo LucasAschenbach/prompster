@@ -94,7 +94,7 @@ const DataPage: React.FC = () => {
         <div
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
-          className="flex h-[200px] cursor-pointer flex-col items-center justify-center rounded bg-zinc-900 text-blue-500 hover:text-blue-400 p-4"
+          className="flex h-[200px] cursor-pointer flex-col items-center justify-center rounded bg-zinc-900 p-4 text-blue-500 hover:text-blue-400"
           onClick={() => fileRef.current?.click()}
         >
           <input
@@ -108,7 +108,7 @@ const DataPage: React.FC = () => {
             <HiUpload size={18} />
             Upload Prompts
           </div>
-          <div className="p-2 text-zinc-500 text-center">
+          <div className="p-2 text-center text-zinc-500">
             Warning: Uploading a file will overwrite your current prompts.
           </div>
           {loading ? (

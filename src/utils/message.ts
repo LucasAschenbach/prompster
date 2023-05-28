@@ -23,7 +23,9 @@ export async function getPrompts(): Promise<{ [key: string]: string }> {
   return response;
 }
 
-export async function setPrompts(prompts: { [key: string]: string }): Promise<void> {
+export async function setPrompts(prompts: {
+  [key: string]: string;
+}): Promise<void> {
   await sendStorageRequest({ action: "setPrompts", prompts: prompts });
 }
 

@@ -5,10 +5,11 @@ import SearchResult from "../components/SearchResult";
 import { usePromptContext } from "../../contexts/PromptContext";
 
 const supportUrls: { [key: string]: string } = {
-  "firefox": "https://addons.mozilla.org/en-US/firefox/addon/prompster/",
-  "chrome": "https://chrome.google.com/webstore/detail/prompster/fbagfekcjdidpmmookklbaeddgkjddml?hl=en&authuser=0",
-  "safari": "https://apps.apple.com/us/app/prompster/id1580198847",
-}
+  firefox: "https://addons.mozilla.org/en-US/firefox/addon/prompster/",
+  chrome:
+    "https://chrome.google.com/webstore/detail/prompster/fbagfekcjdidpmmookklbaeddgkjddml?hl=en&authuser=0",
+  safari: "https://apps.apple.com/us/app/prompster/id1580198847",
+};
 
 const SearchPage = () => {
   const { prompts } = usePromptContext();
@@ -86,9 +87,21 @@ const SearchPage = () => {
         className="fixed inset-x-0 bottom-0 z-10 bg-black px-4 py-2 text-zinc-500"
         ref={footerRef}
       >
-        <a className="text-xs text-blue-500 hover:underline" href="https://github.com/lucasaschenbach/prompster/issues/new" target="_blank">Feedback</a>
+        <a
+          className="text-xs text-blue-500 hover:underline"
+          href="https://github.com/lucasaschenbach/prompster/issues/new"
+          target="_blank"
+        >
+          Feedback
+        </a>
         {" • "}
-        <a className="text-xs text-blue-500 hover:underline" href={supportUrls[BROWSER]} target="_blank">Support us</a>
+        <a
+          className="text-xs text-blue-500 hover:underline"
+          href={supportUrls[BROWSER]}
+          target="_blank"
+        >
+          Support us
+        </a>
       </div>
     </>
   );
