@@ -75,6 +75,4 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 // Open feedback form on uninstall
-browser.runtime.setUninstallURL(
-  "https://docs.google.com/forms/d/e/1FAIpQLScoNvysAJ_NNT4x8ZKOJaOKNAsdMkeDwXkNOAJfEKKb_Hihxw/viewform?usp=sf_link"
-);
+browser.runtime.setUninstallURL("https://tally.so/r/w542Go");
