@@ -122,7 +122,7 @@ const PreviewPrompt: React.FC<Props> = ({ promptKey, prompt, onSubmit }) => {
                   value={value}
                   onKeyDown={handleKeyPress}
                   onChange={(e) => handleInputChange(e, part.value)}
-                  className="focus:placeholder-zing-200 w-24 rounded border-none bg-zinc-900 px-1 text-zinc-300 focus:text-white focus:outline-2 focus:outline-offset-0 focus:outline-blue-600"
+                  className="focus:placeholder-zing-200 w-24 rounded border-none bg-zinc-900 px-1 text-zinc-300 focus:outline-2 focus:outline-offset-0 focus:outline-blue-600"
                 />
               );
             } else {
