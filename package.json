@@ -1,6 +1,6 @@
 {
-  "name": "extension",
-  "version": "1.2.1",
+  "name": "prompster",
+  "version": "1.2.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -34,6 +34,7 @@
     "postcss-parent-selector": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-focus-lock": "^2.9.4",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.10.0",
     "react-transition-group": "^4.4.5",

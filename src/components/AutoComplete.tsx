@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SuggestionList from "./SuggestionList";
 import Card from "./Card";
 import { usePromptContext } from "../contexts/PromptContext";
 
 interface Props {
-  onPromptInsert: (prompt: string) => void;
+  onPromptSelect: (promptKey: string, prompt: string) => void;
   position: "above" | "below";
 }
 
-const AutoComplete: React.FC<Props> = ({ onPromptInsert, position }) => {
+const AutoComplete: React.FC<Props> = ({ onPromptSelect, position }) => {
   const { prompts } = usePromptContext();
 
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const updateSuggestions = (newInput: string) => {
     setInput(newInput);
@@ -24,6 +26,15 @@ const AutoComplete: React.FC<Props> = ({ onPromptInsert, position }) => {
       setSuggestions(filteredSuggestions);
     } else {
       setSuggestions([]);
+    }
+  };
+
+  const handlePromptSelect = (promptKey: string, prompt?: string) => {
+    prompt = prompt || prompts[promptKey];
+    setInput(promptKey);
+    onPromptSelect(promptKey, prompt);
+    if (inputRef.current) {
+      inputRef.current.blur();
     }
   };
 
@@ -54,13 +65,13 @@ const AutoComplete: React.FC<Props> = ({ onPromptInsert, position }) => {
         e.preventDefault();
         if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
           const selectedKey = suggestions[selectedIndex];
-          onPromptInsert(prompts[selectedKey]);
+          handlePromptSelect(selectedKey);
         }
         break;
       case "Backspace":
         if (input.length === 0) {
           e.preventDefault();
-          onPromptInsert("/");
+          handlePromptSelect("", "/");
         }
         break;
       default:
@@ -70,28 +81,32 @@ const AutoComplete: React.FC<Props> = ({ onPromptInsert, position }) => {
 
   useEffect(() => {
     setSelectedIndex(0);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }, [suggestions]);
 
   const suggestionList = (
     <SuggestionList
       suggestions={suggestions}
       selectedIndex={selectedIndex}
-      onClick={(selectedKey: string) => onPromptInsert(prompts[selectedKey])}
+      onClick={handlePromptSelect}
       position={position}
     />
   );
 
   return (
     <div
-      className={`absolute flex w-64 flex-col space-y-2 text-sm ${
+      className={`absolute flex min-w-[256px] flex-col space-y-2 text-sm ${
         position === "above" ? "-translate-y-full" : ""
       }`}
     >
       {position === "above" && suggestionList}
       <Card>
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center p-2">
           <div className="font-lg flex w-4 justify-center font-bold">/</div>
           <input
+            ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => updateSuggestions(e.target.value)}

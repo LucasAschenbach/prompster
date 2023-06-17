@@ -6,7 +6,7 @@ interface Props {
 
 const Card: React.FC<Props> = ({ children }) => {
   return (
-    <div className="rounded-md border border-zinc-700 bg-black p-2 text-white shadow-xl">
+    <div className="rounded-md border border-zinc-700 bg-black text-white shadow-xl overflow-clip">
       {children}
     </div>
   );

@@ -28,7 +28,7 @@ const SuggestionList: React.FC<Props> = ({
       ${suggestions.length > 0 ? "" : "hidden"}`}
     >
       <Card>
-        <ul>
+        <ul className="p-2">
           {displaySuggestions.map((suggestion, index) => {
             const selected = index === displayIndex;
             return (

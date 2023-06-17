@@ -3,14 +3,71 @@ import ReactDOM from "react-dom";
 import AutoComplete from "./components/AutoComplete";
 import "../styles/global.css";
 import { PromptProvider } from "./contexts/PromptContext";
+import launchDialog from "./utils/DialogManager";
 
 let autoCompleteOpen = false;
+
+const replaceVariables = async (prompt: string) => {
+  // Define variables
+  const variables: { [key: string]: () => Promise<string> } = {
+    '\\[paste\\]': async () => {
+      try {
+        return await navigator.clipboard.readText();
+      } catch (err) {
+        console.error('Failed to read clipboard contents: ', err);
+        return '[paste]';  // Fallback to the original text if the clipboard can't be read
+      }
+    },
+    '\\[paste-clean\\]': async () => {
+      try {
+        const clipboard = await navigator.clipboard.readText();
+        return clipboard.replace(/[\r\n]+/g, ' ');
+      } catch (err) {
+        console.error('Failed to read clipboard contents: ', err);
+        return '[paste-clean]';  // Fallback to the original text if the clipboard can't be read
+      }
+    },
+    '\\[date\\]': async () => {
+      const date = new Date();
+      return date.toLocaleDateString();
+    },
+    // Add more variables here
+  };
+
+  // Iterate over variables and replace
+  for (const pattern in variables) {
+    // run logic for variable
+    const replacement = await variables[pattern]();
+    prompt = prompt.replace(new RegExp(pattern, 'g'), replacement);
+  }
+
+  return prompt;
+};
+
+const handlePromptSelect = async (
+  inputField: HTMLInputElement | HTMLTextAreaElement,
+  promptKey: string,
+  prompt: string
+) => {
+  // process special variables
+  const processedPrompt = await replaceVariables(prompt);
+
+  // check for regular variables
+  const containsVariables = /\[[^\]]+\]/.test(processedPrompt);
+  if (containsVariables) {
+    launchDialog(promptKey, processedPrompt, (result: string) => {
+      handlePromptInsert(inputField, result);
+    }, () => {inputField.focus();});
+  } else {
+    handlePromptInsert(inputField, processedPrompt);
+  }
+};
 
 const handlePromptInsert = (
   inputField: HTMLInputElement | HTMLTextAreaElement,
   prompt: string
 ) => {
-  const cursorPosition = inputField.selectionStart || 0;
+  const cursorPosition = inputField.selectionStart ?? 0;
   const currentValue = inputField.value;
   const newValue =
     currentValue.slice(0, cursorPosition) +
@@ -87,8 +144,8 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
           <div className="font-sans">
             <PromptProvider>
               <AutoComplete
-                onPromptInsert={(prompt) => {
-                  handlePromptInsert(inputField, prompt);
+                onPromptSelect={(promptKey, prompt) => {
+                  handlePromptSelect(inputField, promptKey, prompt);
                   handleCloseAutoComplete(div);
                   document.removeEventListener("keydown", escapeListener);
                 }}
