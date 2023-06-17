@@ -10,24 +10,24 @@ let autoCompleteOpen = false;
 const replaceVariables = async (prompt: string) => {
   // Define variables
   const variables: { [key: string]: () => Promise<string> } = {
-    '\\[paste\\]': async () => {
+    "\\[paste\\]": async () => {
       try {
         return await navigator.clipboard.readText();
       } catch (err) {
-        console.error('Failed to read clipboard contents: ', err);
-        return '[paste]';  // Fallback to the original text if the clipboard can't be read
+        console.error("Failed to read clipboard contents: ", err);
+        return "[paste]"; // Fallback to the original text if the clipboard can't be read
       }
     },
-    '\\[paste-clean\\]': async () => {
+    "\\[paste-clean\\]": async () => {
       try {
         const clipboard = await navigator.clipboard.readText();
-        return clipboard.replace(/[\r\n]+/g, ' ');
+        return clipboard.replace(/[\r\n]+/g, " ");
       } catch (err) {
-        console.error('Failed to read clipboard contents: ', err);
-        return '[paste-clean]';  // Fallback to the original text if the clipboard can't be read
+        console.error("Failed to read clipboard contents: ", err);
+        return "[paste-clean]"; // Fallback to the original text if the clipboard can't be read
       }
     },
-    '\\[date\\]': async () => {
+    "\\[date\\]": async () => {
       const date = new Date();
       return date.toLocaleDateString();
     },
@@ -38,7 +38,7 @@ const replaceVariables = async (prompt: string) => {
   for (const pattern in variables) {
     // run logic for variable
     const replacement = await variables[pattern]();
-    prompt = prompt.replace(new RegExp(pattern, 'g'), replacement);
+    prompt = prompt.replace(new RegExp(pattern, "g"), replacement);
   }
 
   return prompt;
@@ -55,9 +55,16 @@ const handlePromptSelect = async (
   // check for regular variables
   const containsVariables = /\[[^\]]+\]/.test(processedPrompt);
   if (containsVariables) {
-    launchDialog(promptKey, processedPrompt, (result: string) => {
-      handlePromptInsert(inputField, result);
-    }, () => {inputField.focus();});
+    launchDialog(
+      promptKey,
+      processedPrompt,
+      (result: string) => {
+        handlePromptInsert(inputField, result);
+      },
+      () => {
+        inputField.focus();
+      }
+    );
   } else {
     handlePromptInsert(inputField, processedPrompt);
   }

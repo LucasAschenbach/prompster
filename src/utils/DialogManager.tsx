@@ -1,10 +1,8 @@
-// DialogManager.tsx
-
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { PromptProvider } from '../contexts/PromptContext';
-import PreviewPrompt from '../components/PreviewPrompt';
-import Modal from '../components/Modal';
+import React from "react";
+import ReactDOM from "react-dom";
+import { PromptProvider } from "../contexts/PromptContext";
+import PreviewPrompt from "../components/PreviewPrompt";
+import Modal from "../components/Modal";
 
 const launchDialog = (
   promptKey: string,
@@ -12,7 +10,7 @@ const launchDialog = (
   onSubmit: (result: string) => void,
   onClose: () => void
 ) => {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   document.body.appendChild(div);
 
   const handleCloseDialog = () => {
@@ -25,8 +23,8 @@ const launchDialog = (
     <React.StrictMode>
       <div className="prompster">
         <div className="font-sans">
-          <Modal 
-            onClose={handleCloseDialog} 
+          <Modal
+            onClose={handleCloseDialog}
             ariaLabel="Modal Title"
             ariaDescribedby="modalDescriptionId"
           >
