@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { HiHashtag, HiMenuAlt2 } from "react-icons/hi";
+import {
+  HiHashtag,
+  HiMenuAlt2,
+  HiOutlineInformationCircle,
+} from "react-icons/hi";
 
 interface EditPromptProps {
   initialKeyword: string;
@@ -73,8 +77,16 @@ const EditPrompt: React.FC<EditPromptProps> = ({
                 onInput={resizeTextarea}
                 value={text}
                 onChange={handleChangeText}
-                className="h-auto w-full resize-none overflow-hidden border-none bg-transparent text-white outline-none"
+                className="h-auto w-full resize-none overflow-hidden border-none bg-transparent pb-4 text-white outline-none"
               />
+              <span className="text-xs text-zinc-500">
+                <HiOutlineInformationCircle
+                  className="inline-block"
+                  size={18}
+                />{" "}
+                Words enclosed by brackets [...] will be interpreted as
+                variables.
+              </span>
             </div>
           </div>
         </label>
