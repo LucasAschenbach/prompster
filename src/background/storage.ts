@@ -9,18 +9,24 @@ export async function initStorage() {
     });
   });
   if (promptsCache === undefined) {
-    promptsCache = defaultPrompts;
+    promptsCache = sortAlphabetically(defaultPrompts);
     await chrome.storage.local.set({ prompts: promptsCache });
   }
 }
 
 // Update the cache and notify listeners
 export async function updateCache(prompts: { [key: string]: string }) {
-  if (JSON.stringify(prompts) === JSON.stringify(promptsCache)) {
+  const sortedPrompts = sortAlphabetically(prompts);
+  if (JSON.stringify(sortedPrompts) === JSON.stringify(promptsCache)) {
     return;
   }
-  promptsCache = prompts;
-  await chrome.runtime.sendMessage({ type: "updatePrompts", prompts: prompts });
+  promptsCache = sortedPrompts;
+  await chrome.runtime.sendMessage({ type: "updatePrompts", prompts: promptsCache });
+}
+
+function sortAlphabetically(object: { [key: string]: string }): { [key: string]: string } {
+  const sortedEntries = Object.entries(object).sort((a, b) => a[0].localeCompare(b[0]));
+  return Object.fromEntries(sortedEntries);
 }
 
 // CRUD operations
@@ -32,14 +38,14 @@ export function getPrompts() {
 
 export async function setPrompts(prompts: { [key: string]: string }) {
   await updateCache(prompts);
-  await chrome.storage.local.set({ prompts: prompts });
+  await chrome.storage.local.set({ prompts: promptsCache });
 }
 
 // Add a new prompt
 export async function createPrompt(key: string, value: string) {
   const updatedPrompts = { ...promptsCache, [key]: value };
   await updateCache(updatedPrompts);
-  await chrome.storage.local.set({ prompts: updatedPrompts });
+  await chrome.storage.local.set({ prompts: promptsCache });
 }
 
 // Update an existing prompt
@@ -53,7 +59,7 @@ export async function updatePrompt(
     delete updatedPrompts[oldKey];
   }
   await updateCache(updatedPrompts);
-  await chrome.storage.local.set({ prompts: updatedPrompts });
+  await chrome.storage.local.set({ prompts: promptsCache });
 }
 
 // Delete a prompt
@@ -61,5 +67,5 @@ export async function deletePrompt(key: string) {
   const updatedPrompts = { ...promptsCache };
   delete updatedPrompts[key];
   await updateCache(updatedPrompts);
-  await chrome.storage.local.set({ prompts: updatedPrompts });
+  await chrome.storage.local.set({ prompts: promptsCache });
 }
