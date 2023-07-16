@@ -71,29 +71,55 @@ const handlePromptSelect = async (
 };
 
 const handlePromptInsert = (
-  inputField: HTMLInputElement | HTMLTextAreaElement,
+  inputField: HTMLInputElement | HTMLTextAreaElement | HTMLElement,
   prompt: string
 ) => {
-  const cursorPosition = inputField.selectionStart ?? 0;
-  const currentValue = inputField.value;
-  const newValue =
-    currentValue.slice(0, cursorPosition) +
-    prompt +
-    currentValue.slice(cursorPosition);
-  inputField.value = newValue;
-  inputField.focus();
-  inputField.setSelectionRange(
-    cursorPosition + prompt.length,
-    cursorPosition + prompt.length
-  );
-  const event = new Event("input", { bubbles: true });
-  inputField.dispatchEvent(event);
+  if (
+    inputField instanceof HTMLInputElement ||
+    inputField instanceof HTMLTextAreaElement
+  ) {
+    // For a regular input or textarea
+    const cursorPosition = inputField.selectionStart ?? 0;
+    const currentValue = inputField.value;
+    const newValue =
+      currentValue.slice(0, cursorPosition) +
+      prompt +
+      currentValue.slice(cursorPosition);
+    inputField.value = newValue;
+    inputField.focus();
+    inputField.setSelectionRange(
+      cursorPosition + prompt.length,
+      cursorPosition + prompt.length
+    );
+    const event = new Event("input", { bubbles: true });
+    inputField.dispatchEvent(event);
+  } else if (inputField.getAttribute("contenteditable") === "true") {
+    // For a contenteditable element
+    inputField.focus();
+    let sel, range;
+    if (window.getSelection) {
+      sel = window.getSelection();
+      if (sel?.getRangeAt && sel.rangeCount) {
+        range = sel.getRangeAt(0);
+        range.deleteContents();
+        range.insertNode(document.createTextNode(prompt));
+        range.collapse(false);
+      }
+    } else if (
+      (document as any).selection &&
+      (document as any).selection.createRange
+    ) {
+      (document as any).selection.createRange().text = prompt;
+    }
+    const event = new Event("input", { bubbles: true });
+    inputField.dispatchEvent(event);
+  }
 };
 
 const handleEscape = (
   e: KeyboardEvent,
   div: HTMLDivElement,
-  inputField: HTMLInputElement | HTMLTextAreaElement
+  inputField: HTMLInputElement | HTMLTextAreaElement | HTMLElement
 ) => {
   if (e.key === "Escape") {
     handleCloseAutoComplete(div);
@@ -114,7 +140,9 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
     e.key === "/" &&
     !autoCompleteOpen &&
     (e.target instanceof HTMLInputElement ||
-      e.target instanceof HTMLTextAreaElement)
+      e.target instanceof HTMLTextAreaElement ||
+      (e.target instanceof HTMLElement &&
+        e.target.getAttribute("contenteditable") === "true"))
   ) {
     autoCompleteOpen = true;
     const inputField = e.target as HTMLInputElement | HTMLTextAreaElement;
