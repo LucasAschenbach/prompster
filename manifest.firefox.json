@@ -14,13 +14,18 @@
     "default_icon": "icons/icon48.png",
     "default_popup": "popup.html"
   },
-  "permissions": ["storage"],
+  "permissions": ["storage", "clipboardRead"],
   "background": {
     "scripts": ["background.js"]
   },
   "content_scripts": [
     {
-      "matches": ["https://chat.openai.com/*", "https://bard.google.com/*"],
+      "matches": [
+        "https://chat.openai.com/*",
+        "https://bard.google.com/*",
+        "https://claude.ai/*",
+        "https://poe.com/*"
+      ],
       "js": ["contentScript.js"]
     }
   ],
