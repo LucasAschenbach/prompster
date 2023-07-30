@@ -1,6 +1,6 @@
 {
   "name": "prompster",
-  "version": "1.3.1",
+  "version": "1.3.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "build:chrome": "webpack --mode production --env browser=chrome",
     "build:firefox": "webpack --mode production --env browser=firefox",
     "build:safari": "webpack --mode production --env browser=safari",
-    "build:all": "run-s build:chrome build:firefox build:safari",
+    "build:demo": "webpack --mode production --env browser=demo",
+    "build:all": "run-s build:chrome build:firefox build:safari build:demo",
     "init:safari": "xcrun safari-web-extension-converter --project-location dist-safari/ --bundle-identifier com.app.prompster dist-safari/",
     "publish:chrome": "webpack --mode production --env browser=chrome && node scripts/publish.mjs",
     "pretty": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
@@ -20,6 +21,7 @@
   "dependencies": {
     "@tailwindcss/line-clamp": "^0.4.4",
     "@types/chrome": "^0.0.226",
+    "@types/dom-inputevent": "^1.0.7",
     "@types/react": "^18.0.30",
     "@types/react-dom": "^18.0.11",
     "@types/react-router-dom": "^5.3.3",
