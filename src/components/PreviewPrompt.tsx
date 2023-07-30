@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Card from "./Card";
 import KeyIcon from "./KeyIcon";
 import { HiOutlineExternalLink } from "react-icons/hi";
+import ContentEditable from "./ContentEditable";
 
 interface Props {
   promptKey: string;
@@ -16,7 +17,7 @@ const PreviewPrompt: React.FC<Props> = ({ promptKey, prompt, onSubmit }) => {
   const [variables, setVariables] = useState<{ [key: string]: string }>({});
   const [focusIndex, setFocusIndex] = useState(0);
 
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const inputRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const newParts = prompt.split(/(\[[^\]]+\])/g);
@@ -77,12 +78,9 @@ const PreviewPrompt: React.FC<Props> = ({ promptKey, prompt, onSubmit }) => {
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    key: string
-  ) => {
+  const handleOnChange = (key: string, value: string) => {
     const newVariables = { ...variables };
-    newVariables[key] = e.target.value;
+    newVariables[key] = value;
     setVariables(newVariables);
   };
 
@@ -114,15 +112,16 @@ const PreviewPrompt: React.FC<Props> = ({ promptKey, prompt, onSubmit }) => {
             if (part.type === "input") {
               const value = variables[part.value];
               return (
-                <input
+                <ContentEditable
                   key={index}
-                  ref={(ref) => (inputRefs.current[part.index] = ref)}
-                  type="text"
+                  ref={(ref) => { inputRefs.current[part.index] = ref; }}
                   placeholder={part.value}
+                  placeholderColor="#9ca3af"
                   value={value}
+                  onFocus={() => setFocusIndex(part.index)}
+                  onChange={(value) => handleOnChange(part.value, value)}
                   onKeyDown={handleKeyPress}
-                  onChange={(e) => handleInputChange(e, part.value)}
-                  className="focus:placeholder-zing-200 w-24 rounded border-none bg-zinc-900 px-1 text-zinc-300 focus:outline-2 focus:outline-offset-0 focus:outline-blue-600"
+                  className="inline cursor-text rounded bg-zinc-800 px-1 text-zinc-300 focus:outline-2 focus:outline-offset-0 focus:outline-blue-600"
                 />
               );
             } else {
