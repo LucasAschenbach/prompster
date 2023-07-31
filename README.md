@@ -2,9 +2,19 @@
 
 [![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/prompster/fbagfekcjdidpmmookklbaeddgkjddml) [![Get the addon](https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png)](https://addons.mozilla.org/en-US/firefox/addon/prompster/)
 
-Prompster is a Chrome/Firefox extension that streamlines your experience with OpenAI's ChatGPT by providing quick and easy access to a list of custom autocomplete prompts. By using a simple trigger character and a keyword-based system, you can insert predefined prompts directly into your ChatGPT input field. The list of predefined prompts is stored at [static/default_prompts.json](https://github.com/LucasAschenbach/prompster/blob/main/static/default_prompts.json) file and can be easily modified to suit your needs.
+**To discuss adding a new chat bot, please comment here: https://github.com/LucasAschenbach/prompster/discussions/5**
+
+Prompster is a browser extension that streamlines your experience with OpenAI's ChatGPT and other chatbots by providing quick and easy access to a rich and customizable library of prompts. Simply type "/" followed by the prompt name to insert the prompt directly into your chat input field. Prompster comes with a list of predefined prompts which can be found [here](https://github.com/LucasAschenbach/prompster/blob/main/static/default_prompts.json). This library can be customized and extended to your liking from within the extension by clicking the extension icon in the browser task bar.
 
 ![prompster for ChatGPT](https://github.com/lucasaschenbach/prompster/blob/main/assets/prompster-demo.gif)
+
+## Supported Chatbots
+- ChatGPT
+- Bard
+- Claude
+- AgentGPT
+- Poe
+- nat.dev/chat
 
 ## How it works
 1. Type the trigger character `/` in an input field on the site.
