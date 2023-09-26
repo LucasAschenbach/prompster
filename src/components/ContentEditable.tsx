@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, forwardRef } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef, forwardRef } from "react";
 
 interface Props extends Omit<React.HTMLProps<HTMLDivElement>, "onChange" | "contentEditable" | "suppressContentEditableWarning" | "onInput"> {
   value: string;
@@ -28,7 +28,7 @@ const ContentEditable = forwardRef<HTMLDivElement,Props>(({
     }
   }, [ref]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isEditing && divRef.current) {
       const range = document.createRange();
       const sel = window.getSelection();
@@ -38,7 +38,7 @@ const ContentEditable = forwardRef<HTMLDivElement,Props>(({
       sel?.addRange(range);
       divRef.current.focus();
     }
-  }, [isEditing, cursorPosition]);
+  });
 
   const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
     setIsEditing(false);
@@ -86,9 +86,10 @@ const ContentEditable = forwardRef<HTMLDivElement,Props>(({
         onFocus={handleFocus}
         onInput={handleInput}
         data-placeholder={placeholder}
-        style={
-          { "--placeholder-color": placeholderColor } as React.CSSProperties
-        }
+        style={{
+          "--placeholder-color": placeholderColor,
+          whiteSpace: "pre-wrap",
+        } as React.CSSProperties}
         {...props}
       >
         {value}
