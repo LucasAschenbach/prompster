@@ -5,7 +5,7 @@ import React, {
   useContext,
   useMemo,
 } from "react";
-import { listenForBackgroundUpdates, getPrompts } from "../utils/message";
+import { listenForBackgroundPromptUpdates, getPrompts } from "../utils/message";
 
 type PromptContextType = {
   prompts: { [key: string]: string };
@@ -23,7 +23,7 @@ export const PromptProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     getPrompts().then((fetchedPrompts) => setPrompts(fetchedPrompts));
 
-    const removeListener = listenForBackgroundUpdates((updatedPrompts) => {
+    const removeListener = listenForBackgroundPromptUpdates((updatedPrompts) => {
       setPrompts(updatedPrompts);
     });
 

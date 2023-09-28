@@ -1,12 +1,14 @@
 import React, { useState, useRef, ChangeEvent, DragEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePromptContext } from "../../contexts/PromptContext";
-import { setPrompts } from "../../utils/message";
+import { useSettingsContext } from "../../contexts/SettingsContext";
+import { setPrompts, setSettings } from "../../utils/message";
 import { HiArrowLeft, HiUpload, HiDownload } from "react-icons/hi";
-import KeyIcon from "../../components/KeyIcon";
 
 const SettingsPage: React.FC = () => {
   const { prompts } = usePromptContext();
+  const { settings } = useSettingsContext();
+
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
@@ -18,6 +20,14 @@ const SettingsPage: React.FC = () => {
   const handleBack = () => {
     navigate(-1);
   };
+
+  // general
+
+  const handleToggleOnlyFirstChar = () => {
+    setSettings({ ...settings, onlyFirstChar: !settings.onlyFirstChar })
+  };
+
+  // import/export
 
   const handleDownload = () => {
     const blob = new Blob([JSON.stringify(prompts, null, 2)], {
@@ -84,7 +94,7 @@ const SettingsPage: React.FC = () => {
         <h3 className="p-2 pb-1 font-bold text-white">General</h3>
         <div className="p-2">
           <label className="flex items-center space-x-2">
-            <input type="checkbox"/>
+            <input type="checkbox" checked={settings.onlyFirstChar} onChange={handleToggleOnlyFirstChar} />
             <span className="text-white">Only activate at beginning of input</span>
           </label>
           <div className="h-2"/>

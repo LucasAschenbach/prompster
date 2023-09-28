@@ -1,8 +1,5 @@
+import { ISettings } from "../../shared/types";
 import defaultSettingsJson from "../../../static/default_settings.json";
-
-interface ISettings {
-  onlyFirstChar: boolean;
-}
 
 let settingsCache: ISettings;
 
@@ -28,7 +25,7 @@ export async function updateSettingsCache(settings: ISettings) {
   }
   settingsCache = settings;
   await chrome.runtime.sendMessage({
-    type: "setSettings",
+    type: "updateSettings",
     settings: settingsCache,
   });
 }

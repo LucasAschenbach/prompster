@@ -1,8 +1,5 @@
+import { IPrompts } from "../../shared/types";
 import defaultPrompts from "../../../static/default_prompts.json";
-
-interface IPrompts {
-  [key: string]: string;
-}
 
 let promptsCache: IPrompts = {};
 
