@@ -122,15 +122,19 @@ const handleEscape = (
   inputField: HTMLInputElement | HTMLTextAreaElement | HTMLElement
 ) => {
   if (e.key === "Escape") {
-    handleCloseAutoComplete(div);
+    handleCloseAutoComplete(inputField, div);
     inputField.focus();
   }
 };
 
-const handleCloseAutoComplete = (div: HTMLDivElement) => {
+const handleCloseAutoComplete = (
+  inputField: HTMLInputElement | HTMLTextAreaElement | HTMLElement,
+  div: HTMLDivElement
+) => {
   if (div.parentElement) {
     ReactDOM.unmountComponentAtNode(div);
     document.body.removeChild(div);
+    // inputField.parentElement?.removeChild(div);
   }
   autoCompleteOpen = false;
 };
@@ -164,6 +168,7 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
     }
 
     document.body.appendChild(div);
+    // inputField.parentElement?.insertBefore(div, inputField.nextSibling);
 
     e.preventDefault();
 
@@ -181,7 +186,7 @@ document.body.addEventListener("keydown", (e: KeyboardEvent) => {
               <AutoComplete
                 onPromptSelect={(promptKey, prompt) => {
                   handlePromptSelect(inputField, promptKey, prompt);
-                  handleCloseAutoComplete(div);
+                  handleCloseAutoComplete(inputField, div);
                   document.removeEventListener("keydown", escapeListener);
                 }}
                 position={position}
