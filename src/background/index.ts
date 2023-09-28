@@ -2,11 +2,15 @@ import browser from "webextension-polyfill";
 import {
   initStorage,
   updateCache,
+  // prompt methods
   getPrompts,
   setPrompts,
   updatePrompt,
   deletePrompt,
   createPrompt,
+  // settings methods
+  getSettings,
+  setSettings,
 } from "./storage";
 
 let storageInitialized = false;
@@ -28,6 +32,7 @@ async function handleMessage(
   sendResponse: (response?: any) => void
 ) {
   switch (request.action) {
+    // prompt methods
     case "getPrompts":
       sendResponse(getPrompts());
       break;
@@ -47,6 +52,14 @@ async function handleMessage(
       await deletePrompt(request.key);
       sendResponse();
       break;
+    // settings methods
+    case "getSettings":
+      sendResponse(getSettings());
+      break;
+    case "setSettings":
+      await setSettings(request.settings);
+      sendResponse();
+      break;
   }
   return true;
 }
@@ -58,8 +71,8 @@ initStorage().then(() => {
 
   // Listen for changes in the Chrome storage to keep the cache up to date
   browser.storage.onChanged.addListener((changes, areaName) => {
-    if (areaName === "local" && changes.prompts) {
-      updateCache(changes.prompts.newValue);
+    if (areaName === "local") {
+      updateCache(changes);
     }
   });
 });

@@ -1,9 +1,13 @@
-import defaultPrompts from "../../static/default_prompts.json";
+import defaultPrompts from "../../../static/default_prompts.json";
 
-let promptsCache: { [key: string]: string } = {};
+interface IPrompts {
+  [key: string]: string;
+}
 
-export async function initStorage() {
-  promptsCache = await new Promise<{ [key: string]: string }>((resolve) => {
+let promptsCache: IPrompts = {};
+
+export async function initPromptsStorage() {
+  promptsCache = await new Promise<IPrompts>((resolve) => {
     chrome.storage.local.get("prompts", (data) => {
       resolve(data.prompts);
     });
@@ -15,17 +19,22 @@ export async function initStorage() {
 }
 
 // Update the cache and notify listeners
-export async function updateCache(prompts: { [key: string]: string }) {
+export async function updatePromptsCache(prompts: IPrompts) {
   const sortedPrompts = sortAlphabetically(prompts);
   if (JSON.stringify(sortedPrompts) === JSON.stringify(promptsCache)) {
     return;
   }
   promptsCache = sortedPrompts;
-  await chrome.runtime.sendMessage({ type: "updatePrompts", prompts: promptsCache });
+  await chrome.runtime.sendMessage({
+    type: "updatePrompts",
+    prompts: promptsCache,
+  });
 }
 
-function sortAlphabetically(object: { [key: string]: string }): { [key: string]: string } {
-  const sortedEntries = Object.entries(object).sort((a, b) => a[0].localeCompare(b[0]));
+function sortAlphabetically(object: IPrompts): IPrompts {
+  const sortedEntries = Object.entries(object).sort((a, b) =>
+    a[0].localeCompare(b[0])
+  );
   return Object.fromEntries(sortedEntries);
 }
 
@@ -36,15 +45,15 @@ export function getPrompts() {
   return promptsCache;
 }
 
-export async function setPrompts(prompts: { [key: string]: string }) {
-  await updateCache(prompts);
+export async function setPrompts(prompts: IPrompts) {
+  await updatePromptsCache(prompts);
   await chrome.storage.local.set({ prompts: promptsCache });
 }
 
 // Add a new prompt
 export async function createPrompt(key: string, value: string) {
   const updatedPrompts = { ...promptsCache, [key]: value };
-  await updateCache(updatedPrompts);
+  await updatePromptsCache(updatedPrompts);
   await chrome.storage.local.set({ prompts: promptsCache });
 }
 
@@ -58,7 +67,7 @@ export async function updatePrompt(
   if (oldKey !== newKey) {
     delete updatedPrompts[oldKey];
   }
-  await updateCache(updatedPrompts);
+  await updatePromptsCache(updatedPrompts);
   await chrome.storage.local.set({ prompts: promptsCache });
 }
 
@@ -66,6 +75,6 @@ export async function updatePrompt(
 export async function deletePrompt(key: string) {
   const updatedPrompts = { ...promptsCache };
   delete updatedPrompts[key];
-  await updateCache(updatedPrompts);
+  await updatePromptsCache(updatedPrompts);
   await chrome.storage.local.set({ prompts: promptsCache });
 }
