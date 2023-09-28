@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { usePromptContext } from "../../contexts/PromptContext";
 import { setPrompts } from "../../utils/message";
 import { HiArrowLeft, HiUpload, HiDownload } from "react-icons/hi";
+import KeyIcon from "../../components/KeyIcon";
 
-const DataPage: React.FC = () => {
+const SettingsPage: React.FC = () => {
   const { prompts } = usePromptContext();
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -77,9 +78,25 @@ const DataPage: React.FC = () => {
         >
           <HiArrowLeft size={18} />
         </button>
-        <h2 className="text-base text-white">Edit Data File</h2>
+        <h2 className="text-base text-white">Settings</h2>
+      </div>
+      <div className="flex flex-col space-y-2 border-b border-zinc-700 p-2">
+        <h3 className="p-2 pb-1 font-bold text-white">General</h3>
+        <div className="p-2">
+          <label className="flex items-center space-x-2">
+            <input type="checkbox"/>
+            <span className="text-white">Only activate at beginning of input</span>
+          </label>
+          <div className="h-2"/>
+          <p className="text-zinc-500">
+            When checked, typing "/" will only activate prompster when the
+            cursor is at the beginning of the input field.
+          </p>
+        </div>
+        <div className="h-2"/>
       </div>
       <div className="flex flex-col space-y-2 p-2">
+        <h3 className="p-2 pb-1 font-bold text-white">Import/Export Prompts</h3>
         <div className="p-2 text-zinc-500">
           You can download your prompts as a JSON file to edit them in a text
           editor of your choice and then upload them back to prompster.
@@ -130,4 +147,4 @@ const DataPage: React.FC = () => {
   );
 };
 
-export default DataPage;
+export default SettingsPage;

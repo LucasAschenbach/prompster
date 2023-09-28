@@ -45,8 +45,8 @@ const SearchPage = () => {
     setFilteredPrompts(results);
   }, [search, prompts]);
 
-  const handleDataClick = () => {
-    navigate("/data");
+  const handleSettingsClick = () => {
+    navigate("/settings");
   };
 
   const handleAddClick = () => {
@@ -63,7 +63,7 @@ const SearchPage = () => {
         <div className="bg-black" ref={searchBarRef}>
           <SearchBar
             onSearch={setSearch}
-            onData={handleDataClick}
+            onSettings={handleSettingsClick}
             onAdd={handleAddClick}
           />
           <div className="px-4 py-1 text-xs text-zinc-500">

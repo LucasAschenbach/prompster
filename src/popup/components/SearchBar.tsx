@@ -1,13 +1,13 @@
 import React from "react";
-import { HiPlus, HiOutlineDocumentText } from "react-icons/hi";
+import { HiPlus, HiOutlineDotsVertical } from "react-icons/hi";
 
 interface Props {
   onSearch: (search: string) => void;
-  onData: () => void;
+  onSettings: () => void;
   onAdd: () => void;
 }
 
-const SearchBar: React.FC<Props> = ({ onSearch, onData, onAdd }) => {
+const SearchBar: React.FC<Props> = ({ onSearch, onSettings, onAdd }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSearch(e.target.value);
   };
@@ -23,9 +23,9 @@ const SearchBar: React.FC<Props> = ({ onSearch, onData, onAdd }) => {
       <div className="flex flex-row p-2">
         <button
           className="flex-none rounded p-2 text-blue-500 hover:bg-zinc-900 hover:text-blue-400"
-          onClick={onData}
+          onClick={onSettings}
         >
-          <HiOutlineDocumentText size={18} />
+          <HiOutlineDotsVertical size={18} />
         </button>
         <button
           className="flex-none rounded p-2 text-blue-500 hover:bg-zinc-900 hover:text-blue-400"
