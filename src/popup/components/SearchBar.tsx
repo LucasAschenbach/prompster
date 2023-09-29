@@ -1,5 +1,5 @@
 import React from "react";
-import { HiPlus, HiOutlineDotsVertical } from "react-icons/hi";
+import { HiPlus, HiOutlineDotsHorizontal } from "react-icons/hi";
 
 interface Props {
   onSearch: (search: string) => void;
@@ -25,7 +25,7 @@ const SearchBar: React.FC<Props> = ({ onSearch, onSettings, onAdd }) => {
           className="flex-none rounded p-2 text-blue-500 hover:bg-zinc-900 hover:text-blue-400"
           onClick={onSettings}
         >
-          <HiOutlineDotsVertical size={18} />
+          <HiOutlineDotsHorizontal size={18} />
         </button>
         <button
           className="flex-none rounded p-2 text-blue-500 hover:bg-zinc-900 hover:text-blue-400"
