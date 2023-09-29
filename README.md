@@ -15,6 +15,7 @@ Prompster is a browser extension that streamlines your experience with OpenAI's 
 - AgentGPT
 - Poe
 - nat.dev/chat
+- you.com
 
 ## How it works
 1. Type the trigger character `/` in an input field on the site.
