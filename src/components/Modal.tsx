@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import FocusLock from "react-focus-lock";
+import { DIALOG_Z_INDEX } from "../shared/constants";
 
 interface Props {
   onClose: () => void;
@@ -43,7 +44,8 @@ const Modal: React.FC<Props> = ({
   return (
     <div
       onClick={handleClickOutside}
-      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center bg-black bg-opacity-60"
+      className="fixed bottom-0 left-0 right-0 top-0 flex items-center justify-center bg-black bg-opacity-60"
+      style={{ zIndex: DIALOG_Z_INDEX }}
     >
       <FocusLock returnFocus>
         <div

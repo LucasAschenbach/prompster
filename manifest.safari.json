@@ -26,7 +26,8 @@
         "https://claude.ai/*",
         "https://poe.com/*",
         "https://agentgpt.reworkd.ai/*",
-        "https://nat.dev/chat/*"
+        "https://nat.dev/chat/*",
+        "https://you.com/*"
       ],
       "js": ["contentScript.js"]
     }
