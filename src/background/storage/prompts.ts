@@ -1,3 +1,4 @@
+import browser from "webextension-polyfill";
 import { IPrompts } from "../../shared/types";
 import defaultPrompts from "../../../static/default_prompts.json";
 
@@ -9,9 +10,12 @@ export async function initPromptsStorage() {
       resolve(data.prompts);
     });
   });
+  const res = await browser.storage.local.get("prompts");
+  promptsCache = res.prompts as IPrompts;
+
   if (promptsCache === undefined) {
     promptsCache = sortAlphabetically(defaultPrompts);
-    await chrome.storage.local.set({ prompts: promptsCache });
+    await browser.storage.local.set({ prompts: promptsCache });
   }
 }
 
@@ -22,10 +26,19 @@ export async function updatePromptsCache(prompts: IPrompts) {
     return;
   }
   promptsCache = sortedPrompts;
-  await chrome.runtime.sendMessage({
+  const msg = {
     type: "updatePrompts",
     prompts: promptsCache,
-  });
+  };
+  await Promise.all([
+    browser.runtime.sendMessage(msg),
+    // send to content script
+    browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
+      if (tabs.length > 0 && tabs[0].id) {
+        browser.tabs.sendMessage(tabs[0].id, msg);
+      }
+    })
+  ])
 }
 
 function sortAlphabetically(object: IPrompts): IPrompts {
@@ -44,14 +57,14 @@ export function getPrompts() {
 
 export async function setPrompts(prompts: IPrompts) {
   await updatePromptsCache(prompts);
-  await chrome.storage.local.set({ prompts: promptsCache });
+  await browser.storage.local.set({ prompts: promptsCache });
 }
 
 // Add a new prompt
 export async function createPrompt(key: string, value: string) {
   const updatedPrompts = { ...promptsCache, [key]: value };
   await updatePromptsCache(updatedPrompts);
-  await chrome.storage.local.set({ prompts: promptsCache });
+  await browser.storage.local.set({ prompts: promptsCache });
 }
 
 // Update an existing prompt
@@ -65,7 +78,7 @@ export async function updatePrompt(
     delete updatedPrompts[oldKey];
   }
   await updatePromptsCache(updatedPrompts);
-  await chrome.storage.local.set({ prompts: promptsCache });
+  await browser.storage.local.set({ prompts: promptsCache });
 }
 
 // Delete a prompt
@@ -73,5 +86,5 @@ export async function deletePrompt(key: string) {
   const updatedPrompts = { ...promptsCache };
   delete updatedPrompts[key];
   await updatePromptsCache(updatedPrompts);
-  await chrome.storage.local.set({ prompts: promptsCache });
+  await browser.storage.local.set({ prompts: promptsCache });
 }

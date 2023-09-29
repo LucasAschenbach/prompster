@@ -6,9 +6,10 @@ import React, {
   useMemo,
 } from "react";
 import { listenForBackgroundPromptUpdates, getPrompts } from "../utils/message";
+import { IPrompts } from "../shared/types";
 
 type PromptContextType = {
-  prompts: { [key: string]: string };
+  prompts: IPrompts;
 };
 
 const PromptContext = createContext<PromptContextType>({ prompts: {} });
@@ -18,7 +19,7 @@ export const usePromptContext = () => useContext(PromptContext);
 export const PromptProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [prompts, setPrompts] = useState<{ [key: string]: string }>({});
+  const [prompts, setPrompts] = useState<IPrompts>({});
 
   useEffect(() => {
     getPrompts().then((fetchedPrompts) => setPrompts(fetchedPrompts));

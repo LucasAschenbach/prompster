@@ -23,11 +23,11 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [settings, setSettings] = useState<ISettings>(defaultSettings);
-
+  
   useEffect(() => {
     getSettings().then((fetchedSettings) => setSettings(fetchedSettings));
 
-    const removeListener = listenForBackgroundSettingsUpdates((updatedSettings) => {
+    const removeListener = listenForBackgroundSettingsUpdates((updatedSettings: ISettings) => {
       setSettings(updatedSettings);
     });
 

@@ -1,20 +1,17 @@
+import browser from "webextension-polyfill";
 import { ISettings } from "../../shared/types";
 import defaultSettingsJson from "../../../static/default_settings.json";
 
 let settingsCache: ISettings;
 
 export async function initSettingsStorage() {
-  const settingsJson =
-    (await new Promise<{ [key: string]: any }>((resolve) => {
-      chrome.storage.local.get("settings", (data) => {
-        resolve(data.settings);
-      });
-    })) || {};
+  const res = await browser.storage.local.get("settings");
+  const settingsJson = res.settings || {};
 
   settingsCache = { ...defaultSettingsJson, ...settingsJson } as ISettings;
 
   if (JSON.stringify(settingsCache) === JSON.stringify(settingsJson)) {
-    await chrome.storage.local.set({ settings: settingsCache });
+    await browser.storage.local.set({ settings: settingsCache });
   }
 }
 
@@ -24,10 +21,19 @@ export async function updateSettingsCache(settings: ISettings) {
     return;
   }
   settingsCache = settings;
-  await chrome.runtime.sendMessage({
+  const msg = {
     type: "updateSettings",
     settings: settingsCache,
-  });
+  }
+  await Promise.all([
+    browser.runtime.sendMessage(msg),
+    // send to content script
+    browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
+      if (tabs.length > 0 && tabs[0].id) {
+        browser.tabs.sendMessage(tabs[0].id, msg);
+      }
+    })
+  ]);
 }
 
 // CRUD operations
@@ -37,5 +43,5 @@ export function getSettings() {
 
 export async function setSettings(settings: ISettings) {
   await updateSettingsCache(settings);
-  await chrome.storage.local.set({ settings: settingsCache });
+  await browser.storage.local.set({ settings: settingsCache });
 }
