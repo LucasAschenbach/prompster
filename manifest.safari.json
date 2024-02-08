@@ -23,6 +23,7 @@
       "matches": [
         "https://chat.openai.com/*",
         "https://bard.google.com/*",
+        "https://gemini.google.com/*",
         "https://claude.ai/*",
         "https://poe.com/*",
         "https://agentgpt.reworkd.ai/*",
