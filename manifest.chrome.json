@@ -25,9 +25,13 @@
         "https://bard.google.com/*",
         "https://gemini.google.com/*",
         "https://claude.ai/*",
-        "https://poe.com/*",
+        "https://aistudio.google.com/*",
+        "https://groq.com/*",
+        "https://platform.openai.com/playground/*",
+        "https://www.meta.ai/*",
         "https://agentgpt.reworkd.ai/*",
         "https://nat.dev/chat/*",
+        "https://poe.com/*",
         "https://you.com/*"
       ],
       "js": ["contentScript.js"]
