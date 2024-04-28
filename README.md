@@ -10,8 +10,14 @@ Prompster is a browser extension that streamlines your experience with OpenAI's 
 
 ## Supported Chatbots
 - ChatGPT
-- Bard
+- Bard (Legacy)
+- Gemini
 - Claude
+- Google AI Studio
+- Groq
+- OpenAI Playground
+- Huggingface Chat
+- Meta AI
 - AgentGPT
 - Poe
 - nat.dev/chat
