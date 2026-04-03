@@ -8,15 +8,24 @@ const launchDialog = (
   promptKey: string,
   prompt: string,
   onSubmit: (result: string) => void,
-  onClose: () => void
+  onCancel: () => void
 ) => {
   const div = document.createElement("div");
   document.body.appendChild(div);
 
-  const handleCloseDialog = () => {
+  const unmountDialog = () => {
     ReactDOM.unmountComponentAtNode(div);
     document.body.removeChild(div);
-    onClose();
+  };
+
+  const handleCancelDialog = () => {
+    unmountDialog();
+    onCancel();
+  };
+
+  const handleSubmitDialog = (result: string) => {
+    unmountDialog();
+    onSubmit(result);
   };
 
   ReactDOM.render(
@@ -24,7 +33,7 @@ const launchDialog = (
       <div className="prompster">
         <div className="font-sans">
           <Modal
-            onClose={handleCloseDialog}
+            onClose={handleCancelDialog}
             ariaLabel="Modal Title"
             ariaDescribedby="modalDescriptionId"
           >
@@ -32,10 +41,7 @@ const launchDialog = (
               <PreviewPrompt
                 promptKey={promptKey}
                 prompt={prompt}
-                onSubmit={(result: string) => {
-                  handleCloseDialog();
-                  onSubmit(result);
-                }}
+                onSubmit={handleSubmitDialog}
               />
             </PromptProvider>
           </Modal>

@@ -1,14 +1,96 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { SettingsProvider, useSettingsContext } from "../contexts/SettingsContext";
 import { PromptProvider } from "../contexts/PromptContext";
 import AutoComplete from "./AutoComplete";
 import ReactDOM from "react-dom";
 import launchDialog from "../utils/DialogManager";
 
+
+type TargetField = HTMLInputElement | HTMLTextAreaElement | HTMLElement;
+
+type SelectionSnapshot =
+  | { kind: "text"; start: number; end: number }
+  | { kind: "range"; range: Range };
+
 const Root: React.FC = () => {
   const { settings } = useSettingsContext();
 
-  let autoCompleteOpen = false;
+  const autoCompleteOpenRef = useRef(false);
+  const activeTargetRef = useRef<TargetField | null>(null);
+  const selectionSnapshotRef = useRef<SelectionSnapshot | null>(null);
+
+  const isTextInput = (
+    inputField: TargetField
+  ): inputField is HTMLInputElement | HTMLTextAreaElement =>
+    inputField instanceof HTMLInputElement ||
+    inputField instanceof HTMLTextAreaElement;
+
+  const captureSelectionSnapshot = (
+    inputField: TargetField
+  ): SelectionSnapshot | null => {
+    if (isTextInput(inputField)) {
+      return {
+        kind: "text",
+        start: inputField.selectionStart ?? 0,
+        end: inputField.selectionEnd ?? inputField.selectionStart ?? 0,
+      };
+    }
+
+    if (inputField.getAttribute("contenteditable") === "true") {
+      const selection = window.getSelection();
+      if (!selection?.rangeCount) {
+        return null;
+      }
+
+      const range = selection.getRangeAt(0);
+      if (!inputField.contains(range.commonAncestorContainer)) {
+        return null;
+      }
+
+      return { kind: "range", range: range.cloneRange() };
+    }
+
+    return null;
+  };
+
+  const restoreSelectionSnapshot = (
+    inputField: TargetField,
+    snapshot = selectionSnapshotRef.current
+  ) => {
+    if (!snapshot) {
+      inputField.focus();
+      return;
+    }
+
+    if (isTextInput(inputField) && snapshot.kind === "text") {
+      inputField.focus();
+      inputField.setSelectionRange(snapshot.start, snapshot.end);
+      return;
+    }
+
+    if (
+      inputField.getAttribute("contenteditable") === "true" &&
+      snapshot.kind === "range"
+    ) {
+      inputField.focus();
+      const selection = window.getSelection();
+      if (!selection) {
+        return;
+      }
+
+      try {
+        selection.removeAllRanges();
+        selection.addRange(snapshot.range.cloneRange());
+      } catch (error) {
+        console.error("Failed to restore contenteditable selection:", error);
+      }
+    }
+  };
+
+  const clearSavedSelection = () => {
+    activeTargetRef.current = null;
+    selectionSnapshotRef.current = null;
+  };
 
   const replaceVariables = async (prompt: string) => {
     // Define variables
@@ -48,10 +130,12 @@ const Root: React.FC = () => {
   };
 
   const handlePromptSelect = async (
-    inputField: HTMLInputElement | HTMLTextAreaElement,
+    inputField: TargetField,
     promptKey: string,
     prompt: string
   ) => {
+    const targetField = activeTargetRef.current ?? inputField;
+
     // process special variables
     const processedPrompt = await replaceVariables(prompt);
 
@@ -62,52 +146,62 @@ const Root: React.FC = () => {
         promptKey,
         processedPrompt,
         (result: string) => {
-          handlePromptInsert(inputField, result);
+          handlePromptInsert(targetField, result);
         },
         () => {
-          inputField.focus();
+          restoreSelectionSnapshot(targetField);
+          clearSavedSelection();
         }
       );
     } else {
-      handlePromptInsert(inputField, processedPrompt);
+      handlePromptInsert(targetField, processedPrompt);
     }
   };
 
   const handlePromptInsert = (
-    inputField: HTMLInputElement | HTMLTextAreaElement | HTMLElement,
+    inputField: TargetField,
     prompt: string
   ) => {
-    if (
-      inputField instanceof HTMLInputElement ||
-      inputField instanceof HTMLTextAreaElement
-    ) {
+    const snapshot =
+      selectionSnapshotRef.current ?? captureSelectionSnapshot(inputField);
+
+    if (isTextInput(inputField)) {
       // For a regular input or textarea
-      const cursorPosition = inputField.selectionStart ?? 0;
+      const start =
+        snapshot?.kind === "text" ? snapshot.start : inputField.selectionStart ?? 0;
+      const end =
+        snapshot?.kind === "text" ? snapshot.end : inputField.selectionEnd ?? start;
       const currentValue = inputField.value;
       const newValue =
-        currentValue.slice(0, cursorPosition) +
+        currentValue.slice(0, start) +
         prompt +
-        currentValue.slice(cursorPosition);
+        currentValue.slice(end);
       inputField.value = newValue;
       inputField.focus();
       inputField.setSelectionRange(
-        cursorPosition + prompt.length,
-        cursorPosition + prompt.length
+        start + prompt.length,
+        start + prompt.length
       );
       const event = new Event("input", { bubbles: true });
       inputField.dispatchEvent(event);
     } else if (inputField.getAttribute("contenteditable") === "true") {
       // For a contenteditable element
-      inputField.focus();
-      let sel, range;
-      if (window.getSelection) {
-        sel = window.getSelection();
-        if (sel?.getRangeAt && sel.rangeCount) {
-          range = sel.getRangeAt(0);
-          range.deleteContents();
-          range.insertNode(document.createTextNode(prompt));
-          range.collapse(false);
-        }
+      restoreSelectionSnapshot(inputField, snapshot);
+      const selection = window.getSelection();
+      if (selection?.rangeCount) {
+        const range =
+          snapshot?.kind === "range"
+            ? snapshot.range.cloneRange()
+            : selection.getRangeAt(0).cloneRange();
+        const promptNode = document.createTextNode(prompt);
+        range.deleteContents();
+        range.insertNode(promptNode);
+
+        const nextRange = document.createRange();
+        nextRange.setStartAfter(promptNode);
+        nextRange.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(nextRange);
       } else if (
         (document as any).selection &&
         (document as any).selection.createRange
@@ -117,29 +211,40 @@ const Root: React.FC = () => {
       const event = new Event("input", { bubbles: true });
       inputField.dispatchEvent(event);
     }
+
+    clearSavedSelection();
   };
 
   const handleEscape = (
     e: KeyboardEvent,
     div: HTMLDivElement,
-    inputField: HTMLInputElement | HTMLTextAreaElement | HTMLElement
+    inputField: TargetField,
+    escapeListener: (event: KeyboardEvent) => void
   ) => {
     if (e.key === "Escape") {
-      handleCloseAutoComplete(inputField, div);
-      inputField.focus();
+      handleCloseAutoComplete(activeTargetRef.current ?? inputField, div, {
+        restoreSelection: true,
+      });
+      document.removeEventListener("keydown", escapeListener);
     }
   };
 
   const handleCloseAutoComplete = (
-    inputField: HTMLInputElement | HTMLTextAreaElement | HTMLElement,
-    div: HTMLDivElement
+    inputField: TargetField,
+    div: HTMLDivElement,
+    options: { restoreSelection?: boolean } = {}
   ) => {
     if (div.parentElement) {
       ReactDOM.unmountComponentAtNode(div);
       document.body.removeChild(div);
       // inputField.parentElement?.removeChild(div);
     }
-    autoCompleteOpen = false;
+    autoCompleteOpenRef.current = false;
+
+    if (options.restoreSelection) {
+      restoreSelectionSnapshot(inputField);
+      clearSavedSelection();
+    }
   };
 
   const handleTrigger = (e: KeyboardEvent) => {
@@ -163,14 +268,18 @@ const Root: React.FC = () => {
     // Trigger on "/" for input, textarea, and contenteditable
     if (
       e.key === "/" &&
-      !autoCompleteOpen &&
+      !autoCompleteOpenRef.current &&
       (e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement ||
         (e.target instanceof HTMLElement &&
           e.target.getAttribute("contenteditable") === "true"))
     ) {
-      autoCompleteOpen = true;
-      const inputField = e.target as HTMLInputElement | HTMLTextAreaElement;
+
+      const inputField = e.target as TargetField;
+      const snapshot = captureSelectionSnapshot(inputField);
+      activeTargetRef.current = inputField;
+      selectionSnapshotRef.current = snapshot;
+      autoCompleteOpenRef.current = true;
       const rect = inputField.getBoundingClientRect();
 
       const position = rect.top < window.innerHeight / 2 ? "below" : "above";
@@ -194,7 +303,7 @@ const Root: React.FC = () => {
       e.preventDefault();
 
       const escapeListener = (e: KeyboardEvent) => {
-        handleEscape(e, div, inputField);
+        handleEscape(e, div, inputField, escapeListener);
       };
 
       document.addEventListener("keydown", escapeListener);
