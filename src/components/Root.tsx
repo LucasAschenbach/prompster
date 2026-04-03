@@ -14,6 +14,7 @@ type SelectionSnapshot =
 
 const Root: React.FC = () => {
   const { settings } = useSettingsContext();
+  const { triggerCharacter } = settings;
 
   const autoCompleteOpenRef = useRef(false);
   const activeTargetRef = useRef<TargetField | null>(null);
@@ -145,6 +146,7 @@ const Root: React.FC = () => {
       launchDialog(
         promptKey,
         processedPrompt,
+        triggerCharacter,
         (result: string) => {
           handlePromptInsert(targetField, result);
         },
@@ -265,9 +267,9 @@ const Root: React.FC = () => {
       }
     }
 
-    // Trigger on "/" for input, textarea, and contenteditable
+    // Trigger on the configured character for input, textarea, and contenteditable
     if (
-      e.key === "/" &&
+      e.key === triggerCharacter &&
       !autoCompleteOpenRef.current &&
       (e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement ||
@@ -321,6 +323,7 @@ const Root: React.FC = () => {
                       document.removeEventListener("keydown", escapeListener);
                     }}
                     position={position}
+                    triggerCharacter={triggerCharacter}
                   />
                 </PromptProvider>
               </SettingsProvider>

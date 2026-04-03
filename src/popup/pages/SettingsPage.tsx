@@ -4,6 +4,7 @@ import { usePromptContext } from "../../contexts/PromptContext";
 import { useSettingsContext } from "../../contexts/SettingsContext";
 import { setPrompts, setSettings } from "../../utils/message";
 import { HiArrowLeft, HiUpload, HiDownload } from "react-icons/hi";
+import { TRIGGER_CHARACTER_OPTIONS } from "../../shared/constants";
 
 const SettingsPage: React.FC = () => {
   const { prompts } = usePromptContext();
@@ -24,7 +25,11 @@ const SettingsPage: React.FC = () => {
   // general
 
   const handleToggleOnlyFirstChar = () => {
-    setSettings({ ...settings, onlyFirstChar: !settings.onlyFirstChar })
+    setSettings({ ...settings, onlyFirstChar: !settings.onlyFirstChar });
+  };
+
+  const handleTriggerCharacterChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSettings({ ...settings, triggerCharacter: e.target.value });
   };
 
   // import/export
@@ -93,17 +98,44 @@ const SettingsPage: React.FC = () => {
       <div className="flex flex-col space-y-2 border-b border-zinc-700 p-2">
         <h3 className="p-2 pb-1 font-bold text-white">General</h3>
         <div className="p-2">
-          <label className="flex items-center space-x-2">
-            <input type="checkbox" checked={settings.onlyFirstChar} onChange={handleToggleOnlyFirstChar} />
-            <span className="text-white">Only activate at beginning of input</span>
+          <label className="mb-2 block text-white" htmlFor="trigger-character">
+            Trigger character
           </label>
-          <div className="h-2"/>
+          <select
+            id="trigger-character"
+            value={settings.triggerCharacter}
+            onChange={handleTriggerCharacterChange}
+            className="w-full rounded bg-zinc-900 p-2 text-white outline-none"
+          >
+            {TRIGGER_CHARACTER_OPTIONS.map((character) => (
+              <option key={character} value={character}>
+                {character}
+              </option>
+            ))}
+          </select>
+          <div className="h-2" />
           <p className="text-zinc-500">
-            When checked, typing "/" will only activate prompster when the
-            cursor is at the beginning of the input field.
+            Choose which character opens the prompt picker in supported chat
+            inputs.
           </p>
         </div>
-        <div className="h-2"/>
+        <div className="p-2">
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={settings.onlyFirstChar}
+              onChange={handleToggleOnlyFirstChar}
+            />
+            <span className="text-white">Only activate at beginning of input</span>
+          </label>
+          <div className="h-2" />
+          <p className="text-zinc-500">
+            When checked, typing the selected trigger character will only
+            activate Prompster when the cursor is at the beginning of the input
+            field.
+          </p>
+        </div>
+        <div className="h-2" />
       </div>
       <div className="flex flex-col space-y-2 p-2">
         <h3 className="p-2 pb-1 font-bold text-white">Import/Export Prompts</h3>

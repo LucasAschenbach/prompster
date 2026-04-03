@@ -6,9 +6,14 @@ import { usePromptContext } from "../contexts/PromptContext";
 interface Props {
   onPromptSelect: (promptKey: string, prompt: string) => void;
   position: "above" | "below";
+  triggerCharacter: string;
 }
 
-const AutoComplete: React.FC<Props> = ({ onPromptSelect, position }) => {
+const AutoComplete: React.FC<Props> = ({
+  onPromptSelect,
+  position,
+  triggerCharacter,
+}) => {
   const { prompts } = usePromptContext();
 
   const [input, setInput] = useState("");
@@ -71,7 +76,7 @@ const AutoComplete: React.FC<Props> = ({ onPromptSelect, position }) => {
       case "Backspace":
         if (input.length === 0) {
           e.preventDefault();
-          handlePromptSelect("", "/");
+          handlePromptSelect("", triggerCharacter);
         }
         break;
       default:
@@ -104,7 +109,9 @@ const AutoComplete: React.FC<Props> = ({ onPromptSelect, position }) => {
       {position === "above" && suggestionList}
       <Card>
         <div className="flex flex-row items-center p-2">
-          <div className="font-lg flex w-4 justify-center font-bold">/</div>
+          <div className="font-lg flex w-4 justify-center font-bold">
+            {triggerCharacter}
+          </div>
           <input
             ref={inputRef}
             type="text"

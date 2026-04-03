@@ -7,10 +7,16 @@ import ContentEditable from "./ContentEditable";
 interface Props {
   promptKey: string;
   prompt: string;
+  triggerCharacter: string;
   onSubmit: (result: string) => void;
 }
 
-const PreviewPrompt: React.FC<Props> = ({ promptKey, prompt, onSubmit }) => {
+const PreviewPrompt: React.FC<Props> = ({
+  promptKey,
+  prompt,
+  triggerCharacter,
+  onSubmit,
+}) => {
   const [parts, setParts] = useState<
     { index: number; type: "input" | "text"; value: string }[]
   >([]);
@@ -101,7 +107,9 @@ const PreviewPrompt: React.FC<Props> = ({ promptKey, prompt, onSubmit }) => {
     <Card>
       <div className="flex h-full max-h-96 flex-col">
         <div className="flex flex-row items-center border-b border-zinc-700 p-4">
-          <div className="text-base">/ {promptKey}</div>
+          <div className="text-base">
+            {triggerCharacter} {promptKey}
+          </div>
           <div className="flex-grow" />
           <div className="text-sm text-gray-500">{`${focusIndex + 1} of ${
             parts.filter((part) => part.type === "input").length

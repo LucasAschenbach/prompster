@@ -1,10 +1,10 @@
-# prompster: ChatGPT Slash Commands
+# prompster: Chat Prompt Commands
 
 [![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/prompster/fbagfekcjdidpmmookklbaeddgkjddml) [![Get the addon](https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png)](https://addons.mozilla.org/en-US/firefox/addon/prompster/)
 
 **To discuss adding a new chat bot, please comment here: https://github.com/LucasAschenbach/prompster/discussions/5**
 
-Prompster is a browser extension that streamlines your experience with OpenAI's ChatGPT and other chatbots by providing quick and easy access to a rich and customizable library of prompts. Simply type "/" followed by the prompt name to insert the prompt directly into your chat input field. Prompster comes with a list of predefined prompts which can be found [here](https://github.com/LucasAschenbach/prompster/blob/main/static/default_prompts.json). This library can be customized and extended to your liking from within the extension by clicking the extension icon in the browser task bar.
+Prompster is a browser extension that streamlines your experience with OpenAI's ChatGPT and other chatbots by providing quick and easy access to a rich and customizable library of prompts. Simply type your configured trigger character followed by the prompt name to insert the prompt directly into your chat input field. You can change the trigger character in the extension settings. Prompster comes with a list of predefined prompts which can be found [here](https://github.com/LucasAschenbach/prompster/blob/main/static/default_prompts.json). This library can be customized and extended to your liking from within the extension by clicking the extension icon in the browser task bar.
 
 ![prompster for ChatGPT](https://github.com/lucasaschenbach/prompster/blob/main/assets/prompster-demo.gif)
 
@@ -24,7 +24,7 @@ Prompster is a browser extension that streamlines your experience with OpenAI's 
 - you.com
 
 ## How it works
-1. Type the trigger character `/` in an input field on the site.
+1. Type your configured trigger character in an input field on the site.
 2. An autocomplete window with a textfield will appear above the input field.
 3. As you type your prompt keyword, the window will display up to 5 suggestions that match the starting characters.
 4. The first suggestion is selected by default, but you can navigate the options using arrow keys.

@@ -1,3 +1,4 @@
 {
-  "onlyFirstChar": false
+  "onlyFirstChar": false,
+  "triggerCharacter": "/"
 }

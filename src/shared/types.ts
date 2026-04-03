@@ -4,4 +4,5 @@ export interface IPrompts {
 
 export interface ISettings {
   onlyFirstChar: boolean;
+  triggerCharacter: string;
 }

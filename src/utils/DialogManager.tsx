@@ -7,6 +7,7 @@ import Modal from "../components/Modal";
 const launchDialog = (
   promptKey: string,
   prompt: string,
+  triggerCharacter: string,
   onSubmit: (result: string) => void,
   onCancel: () => void
 ) => {
@@ -41,6 +42,7 @@ const launchDialog = (
               <PreviewPrompt
                 promptKey={promptKey}
                 prompt={prompt}
+                triggerCharacter={triggerCharacter}
                 onSubmit={handleSubmitDialog}
               />
             </PromptProvider>
