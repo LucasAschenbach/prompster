@@ -1,4 +1,5 @@
 import browser from "webextension-polyfill";
+import { IPrompts, ISettings } from "../../shared/types";
 import {
   initPromptsStorage,
   updatePromptsCache,
@@ -25,10 +26,10 @@ export async function updateCache(
 ) {
   await Promise.all([
     changes.prompts
-      ? updatePromptsCache(changes.prompts?.newValue)
+      ? updatePromptsCache(changes.prompts.newValue as IPrompts)
       : Promise.resolve(),
     changes.settings
-      ? updateSettingsCache(changes.settings?.newValue)
+      ? updateSettingsCache(changes.settings.newValue as ISettings)
       : Promise.resolve(),
   ]);
 }

@@ -5,15 +5,16 @@ import defaultPrompts from "../../../static/default_prompts.json";
 let promptsCache: IPrompts = {};
 
 export async function initPromptsStorage() {
-  promptsCache = await new Promise<IPrompts>((resolve) => {
+  const chromePrompts = await new Promise<IPrompts | undefined>((resolve) => {
     chrome.storage.local.get("prompts", (data) => {
-      resolve(data.prompts);
+      resolve(data.prompts as IPrompts | undefined);
     });
   });
   const res = await browser.storage.local.get("prompts");
-  promptsCache = res.prompts as IPrompts;
+  const browserPrompts = res.prompts as IPrompts | undefined;
+  promptsCache = browserPrompts ?? chromePrompts ?? {};
 
-  if (promptsCache === undefined) {
+  if (browserPrompts === undefined && chromePrompts === undefined) {
     promptsCache = sortAlphabetically(defaultPrompts);
     await browser.storage.local.set({ prompts: promptsCache });
   }
