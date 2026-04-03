@@ -1,27 +1,48 @@
-# prompster: Chat Prompt Commands
+<div align="center">
+  <h1>Prompster</h1>
+  <p><strong>Slash commands for AI chat apps</strong></p>
+  <p>
+    <a href="https://chromewebstore.google.com/detail/prompster/fbagfekcjdidpmmookklbaeddgkjddml">
+      <img src="./assets/chrome-store-shield.svg" alt="Chrome Web Store" height="36" />
+    </a>
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/prompster/">
+      <img src="./assets/firefox-store-shield.svg" alt="Firefox Add-ons" height="36" />
+    </a>
+  </p>
+</div>
 
-[![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chrome.google.com/webstore/detail/prompster/fbagfekcjdidpmmookklbaeddgkjddml) [![Get the addon](https://blog.mozilla.org/addons/files/2015/11/get-the-addon.png)](https://addons.mozilla.org/en-US/firefox/addon/prompster/)
+**To discuss adding a new chat app, please comment here: https://github.com/LucasAschenbach/prompster/discussions/5**
 
-**To discuss adding a new chat bot, please comment here: https://github.com/LucasAschenbach/prompster/discussions/5**
+Prompster is a browser extension that streamlines your experience across AI chat apps by providing quick access to a rich and customizable prompt library. Type your configured trigger character followed by the prompt name to insert the prompt directly into the chat input field. You can change the trigger character in the extension settings. Prompster ships with a set of predefined prompts in [static/default_prompts.json](https://github.com/LucasAschenbach/prompster/blob/main/static/default_prompts.json), and you can customize or extend that library from the extension popup.
 
-Prompster is a browser extension that streamlines your experience with OpenAI's ChatGPT and other chatbots by providing quick and easy access to a rich and customizable library of prompts. Simply type your configured trigger character followed by the prompt name to insert the prompt directly into your chat input field. You can change the trigger character in the extension settings. Prompster comes with a list of predefined prompts which can be found [here](https://github.com/LucasAschenbach/prompster/blob/main/static/default_prompts.json). This library can be customized and extended to your liking from within the extension by clicking the extension icon in the browser task bar.
+![Prompster demo](./assets/prompster-demo.gif)
 
-![prompster for ChatGPT](https://github.com/lucasaschenbach/prompster/blob/main/assets/prompster-demo.gif)
+## Supported Chat Apps
 
-## Supported Chatbots
+### Main apps
 - ChatGPT
-- Bard (Legacy)
-- Gemini
 - Claude
-- Google AI Studio
-- Groq
-- OpenAI Playground
-- Huggingface Chat
-- Meta AI
-- AgentGPT
+- Gemini
+- Perplexity
+- Microsoft Copilot
+- Grok
+- T3 Chat
 - Poe
-- nat.dev/chat
-- you.com
+
+<details>
+  <summary>More supported chat apps and playgrounds</summary>
+
+- Google AI Studio
+- Meta AI
+- DeepSeek
+- Mistral Le Chat
+- Duck.ai
+- HuggingChat
+- OpenRouter Chat
+- OpenAI Playground
+- Groq Playground
+- AgentGPT
+</details>
 
 ## How it works
 1. Type your configured trigger character in an input field on the site.
@@ -37,7 +58,7 @@ Prompster is a browser extension that streamlines your experience with OpenAI's 
 
 Install from the official plugin store for your browser:
 
-- [Chrome](https://chrome.google.com/webstore/detail/prompster/fbagfekcjdidpmmookklbaeddgkjddml)
+- [Chrome](https://chromewebstore.google.com/detail/prompster/fbagfekcjdidpmmookklbaeddgkjddml)
 - [Firefox](https://addons.mozilla.org/en-US/firefox/addon/prompster/)
 
 ### Manually
@@ -67,7 +88,7 @@ npm run build
    1. Open Chrome and go to chrome://extensions/.
    2. Enable "Developer mode" in the top right corner.
    3. Click "Load unpacked" and select the dist folder in the project directory.
-   4. Your extension should now be loaded and ready to use with ChatGPT.
+   4. Your extension should now be loaded and ready to use on the supported chat apps.
 
 ## Credits
 The prompts inside [static/default_prompts.json](https://github.com/LucasAschenbach/prompster/blob/main/static/default_prompts.json) were sourced from the [Awesome ChatGPT Prompts](https://github.com/f/awesome-chatgpt-prompts) repository. If you found the prompts interesting and useful, consider checking out their repository!

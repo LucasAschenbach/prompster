@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "prompster",
   "version": "1.4.5",
-  "description": "Slash Commands for ChatGPT and Bard",
+  "description": "Slash commands for AI chat apps",
   "icons": {
     "16": "icons/icon16.png",
     "19": "icons/icon19.png",
@@ -23,18 +23,25 @@
       "matches": [
         "https://chatgpt.com/*",
         "https://chat.openai.com/*",
-        "https://bard.google.com/*",
         "https://gemini.google.com/*",
         "https://claude.ai/*",
+        "https://www.perplexity.ai/*",
+        "https://perplexity.ai/*",
+        "https://copilot.microsoft.com/*",
+        "https://t3.chat/*",
+        "https://grok.com/*",
         "https://aistudio.google.com/*",
-        "https://groq.com/*",
+        "https://chat.mistral.ai/*",
+        "https://chat.deepseek.com/*",
+        "https://duck.ai/*",
+        "https://openrouter.ai/chat/*",
         "https://platform.openai.com/playground/*",
         "https://huggingface.co/chat/*",
         "https://www.meta.ai/*",
         "https://agentgpt.reworkd.ai/*",
-        "https://nat.dev/chat/*",
+        "https://console.groq.com/playground/*",
         "https://poe.com/*",
-        "https://you.com/*"
+        "https://meta.ai/*"
       ],
       "js": ["contentScript.js"]
     }
